@@ -162,15 +162,7 @@
             </div>
         </div>
 
-        <form id="questionnaire-form" action="https://api.staticforms.xyz/submit" method="POST">
-
-  <!-- Static Forms required hidden fields -->
-  <input type="hidden" name="accessKey" value="sf_i9h1kdnf2lel593ej1j69d42">
-  <input type="hidden" name="subject" value="New Form Submission">
-  <input type="hidden" name="replyTo" value="@">
-  <!-- Optional: redirect to a thank-you page after submission -->
-  <!-- <input type="hidden" name="redirectTo" value="thankyou.html"> -->
-
+        <form id="questionnaire-form" onsubmit="return false;">
             
             <!-- SECTION A: DEMOGRAPHIC INFORMATION -->
             <div class="glass-panel rounded-2xl shadow-xl p-6 mb-6 section-hidden" id="section-a">
@@ -313,6 +305,58 @@
                         </label>
                     </div>
                 </div>
+
+                <!-- Q5: Faculty Affiliation (NEW) -->
+                <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100">
+                    <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
+                        <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">5</span>
+                        What is your faculty affiliation?
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
+                        <label class="cursor-pointer option-hover p-3 rounded-lg border-2 border-gray-200 transition-all">
+                            <input type="radio" name="faculty_affiliation" value="Faculty of Science" class="hidden radio-custom" onchange="updateProgress()">
+                            <div class="flex items-center">
+                                <i class="fas fa-flask text-blue-500 mr-2"></i>
+                                <span>Faculty of Science</span>
+                            </div>
+                        </label>
+                        <label class="cursor-pointer option-hover p-3 rounded-lg border-2 border-gray-200 transition-all">
+                            <input type="radio" name="faculty_affiliation" value="Faculty of Business Management" class="hidden radio-custom" onchange="updateProgress()">
+                            <div class="flex items-center">
+                                <i class="fas fa-briefcase text-green-500 mr-2"></i>
+                                <span>Faculty of Business Management</span>
+                            </div>
+                        </label>
+                        <label class="cursor-pointer option-hover p-3 rounded-lg border-2 border-gray-200 transition-all">
+                            <input type="radio" name="faculty_affiliation" value="Faculty of Arts and Social Sciences" class="hidden radio-custom" onchange="updateProgress()">
+                            <div class="flex items-center">
+                                <i class="fas fa-book text-purple-500 mr-2"></i>
+                                <span>Faculty of Arts and Social Sciences</span>
+                            </div>
+                        </label>
+                        <label class="cursor-pointer option-hover p-3 rounded-lg border-2 border-gray-200 transition-all">
+                            <input type="radio" name="faculty_affiliation" value="Faculty of Education" class="hidden radio-custom" onchange="updateProgress()">
+                            <div class="flex items-center">
+                                <i class="fas fa-chalkboard-teacher text-orange-500 mr-2"></i>
+                                <span>Faculty of Education</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Q6: Degree Programme (NEW) -->
+                <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100">
+                    <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
+                        <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">6</span>
+                        Indicate your degree programme
+                    </h3>
+                    <div class="bg-gray-50 p-3 rounded-lg border-2 border-dashed border-gray-300">
+                        <input type="text" name="degree_programme" class="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-indigo-500 focus:outline-none text-sm bg-white" placeholder="Type your degree programme here..." oninput="updateProgress()">
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2 italic">
+                        <i class="fas fa-info-circle mr-1"></i> Please specify the name of your degree programme (e.g., Bachelor of Science in Computer Science, Diploma in Business Administration, etc.)
+                    </p>
+                </div>
             </div>
 
             <!-- SECTION B: AWARENESS OF OER -->
@@ -325,10 +369,10 @@
                     </div>
                 </div>
 
-                <!-- Q5: OER Awareness Level -->
+                <!-- Q7: OER Awareness Level (Renumbered from Q5) -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
-                        <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">5</span>
+                        <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">7</span>
                         How aware are you of Open Educational Resources (OER)?
                     </h3>
                     <div class="space-y-2 text-sm">
@@ -365,11 +409,11 @@
                     </div>
                 </div>
 
-                <!-- Q6: How Learned About OER (Conditional) -->
-                <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100 conditional-box" id="q6-container" style="display:none;">
+                <!-- Q8: How Learned About OER (Conditional) (Renumbered from Q6) -->
+                <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100 conditional-box" id="q8-container" style="display:none;">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
-                        <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">6</span>
-                        If your answer to Question 5 is "Aware" or "Very Aware," how did you learn about the existence of Open Educational Resources?
+                        <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">8</span>
+                        If your answer to Question 7 is "Aware" or "Very Aware," how did you learn about the existence of Open Educational Resources?
                         <span class="ml-2 text-xs bg-yellow-200 text-yellow-800 px-2 py-0.5 rounded">Conditional</span>
                     </h3>
                     <div class="grid grid-cols-2 gap-2 text-xs">
@@ -415,10 +459,10 @@
                     </div>
                 </div>
 
-                <!-- Q7: Concepts Awareness (Matrix) -->
+                <!-- Q9: Concepts Awareness (Matrix) (Renumbered from Q7) -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
-                        <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">7</span>
+                        <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">9</span>
                         How aware are you of the following concepts? (Tick where appropriate)
                     </h3>
                     <div class="overflow-x-auto">
@@ -470,10 +514,10 @@
                     </div>
                 </div>
 
-                <!-- Q8: Internet Access -->
+                <!-- Q10: Internet Access (Renumbered from Q8) -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
-                        <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">8</span>
+                        <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">10</span>
                         Do you have access to the internet?
                     </h3>
                     <div class="grid grid-cols-2 gap-3">
@@ -493,14 +537,14 @@
                         </label>
                     </div>
                     <p class="text-xs text-gray-500 mt-2 italic bg-gray-50 p-2 rounded">
-                        <i class="fas fa-info-circle mr-1"></i> If "Yes," continue with Question 9. If "No," skip to Question 12.
+                        <i class="fas fa-info-circle mr-1"></i> If "Yes," continue with Question 11. If "No," skip to Question 14.
                     </p>
                 </div>
 
-                <!-- Q9: Internet Location (Conditional) -->
+                <!-- Q11: Internet Location (Conditional) (Renumbered from Q9) -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100 conditional-internet" style="display:none;">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
-                        <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">9</span>
+                        <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">11</span>
                         Where do you access the internet? (You may tick more than one answer)
                     </h3>
                     <div class="overflow-x-auto">
@@ -559,10 +603,10 @@
                     </div>
                 </div>
 
-                <!-- Q10: Devices -->
+                <!-- Q12: Devices (Renumbered from Q10) -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100 conditional-internet" style="display:none;">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
-                        <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">10</span>
+                        <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">12</span>
                         Which of the following devices do you use to access the internet? (You may choose more than one device)
                     </h3>
                     <div class="grid grid-cols-2 gap-2 text-sm">
@@ -599,10 +643,10 @@
                     </p>
                 </div>
 
-                <!-- Q11: Digital Competence -->
+                <!-- Q13: Digital Competence (Renumbered from Q11) -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
-                        <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">11</span>
+                        <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">13</span>
                         What is your digital competence level?
                     </h3>
                     <div class="grid grid-cols-2 gap-2 text-sm">
@@ -630,10 +674,10 @@
                     <p class="text-xs font-bold text-indigo-800">Section E: Usage of OER</p>
                 </div>
 
-                <!-- Q12: Used OER -->
+                <!-- Q14: Used OER (Renumbered from Q12) -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
-                        <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">12</span>
+                        <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">14</span>
                         Have you ever used Open Educational Resources (OER)?
                     </h3>
                     <div class="grid grid-cols-3 gap-2 text-sm">
@@ -651,14 +695,14 @@
                         </label>
                     </div>
                     <p class="text-xs text-gray-500 mt-2 italic bg-gray-50 p-2 rounded">
-                        <i class="fas fa-info-circle mr-1"></i> If "Yes," continue with Question 13. If "No" or "Don't Know," skip to Question 22.
+                        <i class="fas fa-info-circle mr-1"></i> If "Yes," continue with Question 15. If "No" or "Don't Know," skip to Question 24.
                     </p>
                 </div>
 
-                <!-- Q13: OER Repositories Usage (Conditional - Yes only) -->
+                <!-- Q15: OER Repositories Usage (Conditional - Yes only) (Renumbered from Q13) -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100 conditional-oer-yes" style="display:none;">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
-                        <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">13</span>
+                        <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">15</span>
                         How often do you consult the following Open Educational Resources repositories?
                     </h3>
                     <div class="overflow-x-auto">
@@ -788,10 +832,10 @@
                     </div>
                 </div>
 
-                <!-- Q14: Types of OER Materials -->
+                <!-- Q16: Types of OER Materials (Renumbered from Q14) -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100 conditional-oer-yes" style="display:none;">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
-                        <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">14</span>
+                        <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">16</span>
                         What type of OER materials have you consulted? (You may select more than one answer)
                     </h3>
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-2 text-xs">
@@ -853,10 +897,10 @@
                     </div>
                 </div>
 
-                <!-- Q15: Preferred Format -->
+                <!-- Q17: Preferred Format (Renumbered from Q15) -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100 conditional-oer-yes" style="display:none;">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
-                        <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">15</span>
+                        <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">17</span>
                         Which OER format do you prefer to consult the most?
                     </h3>
                     <div class="grid grid-cols-2 gap-2 text-sm">
@@ -882,10 +926,10 @@
                     </div>
                 </div>
 
-                <!-- Q16: Preferred Medium -->
+                <!-- Q18: Preferred Medium (Renumbered from Q16) -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100 conditional-oer-yes" style="display:none;">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
-                        <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">16</span>
+                        <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">18</span>
                         Which OER medium do you prefer to consult the most?
                     </h3>
                     <div class="grid grid-cols-2 gap-3">
@@ -906,10 +950,10 @@
                     </div>
                 </div>
 
-                <!-- Q17: Purposes -->
+                <!-- Q19: Purposes (Renumbered from Q17) -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100 conditional-oer-yes" style="display:none;">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
-                        <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">17</span>
+                        <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">19</span>
                         For which of the following purposes do you consult Open Educational Resources (OER)? (You may select more than one answer)
                     </h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
@@ -955,10 +999,10 @@
                     </div>
                 </div>
 
-                <!-- Q18: Search Tools -->
+                <!-- Q20: Search Tools (Renumbered from Q18) -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100 conditional-oer-yes" style="display:none;">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
-                        <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">18</span>
+                        <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">20</span>
                         Which search tool(s) do you use to locate Open Educational Resources? (You may select more than one answer)
                     </h3>
                     <div class="grid grid-cols-1 gap-2 text-xs">
@@ -996,10 +1040,10 @@
                     </div>
                 </div>
 
-                <!-- Q19: Training -->
+                <!-- Q21: Training (Renumbered from Q19) -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100 conditional-oer-yes" style="display:none;">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
-                        <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">19</span>
+                        <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">21</span>
                         Have you attended any training on utilizing Open Educational Resources (OER)?
                     </h3>
                     <div class="space-y-2 text-sm">
@@ -1028,10 +1072,10 @@
                     </div>
                 </div>
 
-                <!-- Q20: Search Techniques -->
+                <!-- Q22: Search Techniques (Renumbered from Q20) -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100 conditional-oer-yes" style="display:none;">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
-                        <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">20</span>
+                        <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">22</span>
                         List any search techniques you use for searching Open Educational Resources. (You may select more than one answer)
                     </h3>
                     <div class="grid grid-cols-2 gap-2 text-xs">
@@ -1065,10 +1109,10 @@
                     </div>
                 </div>
 
-                <!-- Q21: Evaluation -->
+                <!-- Q23: Evaluation (Renumbered from Q21) -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100 conditional-oer-yes" style="display:none;">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
-                        <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">21</span>
+                        <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">23</span>
                         How do you evaluate the relevance of the OER that you have searched for? (You may select more than one answer)
                     </h3>
                     <div class="grid grid-cols-1 gap-2 text-xs">
@@ -1118,24 +1162,24 @@
                 <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-4 conditional-oer-no" style="display:none;">
                     <p class="text-xs text-yellow-800 text-center">
                         <i class="fas fa-info-circle mr-1"></i>
-                        <strong>If you have never used OER, please continue with Question 22.</strong><br>
-                        If you have used OER, please skip to Question 24.
+                        <strong>If you have never used OER, please continue with Question 24.</strong><br>
+                        If you have used OER, please skip to Question 26.
                     </p>
                 </div>
 
-                <!-- Q22: Why Not Use OER (Conditional - No/DK only) -->
+                <!-- Q24: Why Not Use OER (Conditional - No/DK only) (Renumbered from Q22) -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100 conditional-oer-no" style="display:none;">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
-                        <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">22</span>
+                        <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">24</span>
                         Why don't you use Open Educational Resources (OER)?
                     </h3>
                     <textarea name="why_not_oer" class="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-indigo-500 focus:outline-none text-sm" rows="4" placeholder="Please explain your reasons..." oninput="updateProgress()"></textarea>
                 </div>
 
-                <!-- Q23: Opinion on OER (Conditional - No/DK only) -->
+                <!-- Q25: Opinion on OER (Conditional - No/DK only) (Renumbered from Q23) -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100 conditional-oer-no" style="display:none;">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
-                        <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">23</span>
+                        <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">25</span>
                         What is your opinion on utilizing Open Educational Resources (OER)?
                     </h3>
                     <div class="space-y-2 text-sm mb-3">
@@ -1169,15 +1213,15 @@
                 <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4 conditional-oer-yes" style="display:none;">
                     <p class="text-xs text-blue-800 text-center">
                         <i class="fas fa-info-circle mr-1"></i>
-                        <strong>If you have used OER, please continue with Question 24.</strong><br>
-                        If you have never used OER, please skip to Question 27.
+                        <strong>If you have used OER, please continue with Question 26.</strong><br>
+                        If you have never used OER, please skip to Question 29.
                     </p>
                 </div>
 
-                <!-- Q24: Likert Scale Statements -->
+                <!-- Q26: Likert Scale Statements (Renumbered from Q24) -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100 conditional-oer-yes" style="display:none;">
                     <h3 class="font-semibold text-gray-800 mb-4 flex items-center text-sm">
-                        <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">24</span>
+                        <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">26</span>
                         How much do you agree with the following statements?
                     </h3>
                     
@@ -1340,10 +1384,10 @@
                     </div>
                 </div>
 
-                <!-- Q25: Ability to Find OER -->
+                <!-- Q27: Ability to Find OER (Renumbered from Q25) -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100 conditional-oer-yes" style="display:none;">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
-                        <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">25</span>
+                        <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">27</span>
                         How would you rate your overall ability to find relevant OER in the OER repositories?
                     </h3>
                     <div class="space-y-2 text-sm">
@@ -1381,10 +1425,10 @@
                     </div>
                 </div>
 
-                <!-- Q26: Problems -->
+                <!-- Q28: Problems (Renumbered from Q26) -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
-                        <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">26</span>
+                        <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">28</span>
                         What problems do you encounter when using Open Educational Resources (OER)? (You may tick more than one answer)
                     </h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
@@ -1472,14 +1516,14 @@
                 <div class="bg-green-50 border-l-4 border-green-500 p-3 mb-4 rounded-r">
                     <p class="text-xs text-green-800">
                         <i class="fas fa-info-circle mr-1"></i>
-                        <strong>All respondents should continue with Question 27.</strong>
+                        <strong>All respondents should continue with Question 29.</strong>
                     </p>
                 </div>
 
-                <!-- Q27: Recommendations -->
+                <!-- Q29: Recommendations (Renumbered from Q27) -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
-                        <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">27</span>
+                        <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">29</span>
                         In your opinion, what should be done to make OER more effectively utilized to support teaching and learning for undergraduate distance students at OUT?
                     </h3>
                     <div class="bg-yellow-50 border-l-4 border-yellow-400 p-3 mb-3 rounded-r">
@@ -1579,19 +1623,19 @@
             }
         }
 
-        // Toggle conditional questions based on Q5
+        // Toggle conditional questions based on Q7 (renumbered from Q5)
         function toggleConditionalQuestions() {
-            const q5 = document.querySelector('input[name="oer_awareness"]:checked');
-            const q6 = document.getElementById('q6-container');
+            const q7 = document.querySelector('input[name="oer_awareness"]:checked');
+            const q8 = document.getElementById('q8-container');
             
-            if (q5 && (q5.value === 'Aware' || q5.value === 'Very aware')) {
-                q6.style.display = 'block';
+            if (q7 && (q7.value === 'Aware' || q7.value === 'Very aware')) {
+                q8.style.display = 'block';
             } else {
-                q6.style.display = 'none';
+                q8.style.display = 'none';
             }
         }
 
-        // Toggle internet questions based on Q8
+        // Toggle internet questions based on Q10 (renumbered from Q8)
         function toggleInternetQuestions(show) {
             const questions = document.querySelectorAll('.conditional-internet');
             questions.forEach(q => {
@@ -1599,7 +1643,7 @@
             });
         }
 
-        // Toggle OER usage questions based on Q12
+        // Toggle OER usage questions based on Q14 (renumbered from Q12)
         function toggleOERUsage(hasUsed) {
             const yesQuestions = document.querySelectorAll('.conditional-oer-yes');
             const noQuestions = document.querySelectorAll('.conditional-oer-no');
@@ -1618,7 +1662,7 @@
         function updateProgress() {
             const form = document.getElementById('questionnaire-form');
             const inputs = form.querySelectorAll('input[type="radio"]:checked, input[type="checkbox"]:checked, textarea:not(:empty), input[type="text"]:not(:placeholder-shown)');
-            const totalQuestions = 27;
+            const totalQuestions = 29; // Updated to 29 questions
             const answered = new Set();
             
             inputs.forEach(input => {
@@ -1686,4 +1730,6 @@
     </script>
 </body>
 </html>
+
+
 
