@@ -29,6 +29,9 @@
             border-left-color: #667eea;
             transform: translateX(5px);
         }
+        .option-hover {
+            transition: all 0.2s ease;
+        }
         .option-hover:hover {
             background-color: #f3f4f6;
             transform: translateX(5px);
@@ -70,6 +73,36 @@
         .conditional-box {
             background-color: #fef3c7;
             border-left: 4px solid #f59e0b;
+        }
+        .specify-input {
+            transition: all 0.3s ease;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        .specify-input.active {
+            max-height: 100px;
+            opacity: 1;
+            margin-top: 0.5rem;
+        }
+        .specify-field {
+            border: 2px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+            width: 100%;
+            transition: all 0.2s;
+        }
+        .specify-field:focus {
+            border-color: #667eea;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        .specify-container {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border: 2px dashed #3b82f6;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            margin-top: 0.5rem;
         }
     </style>
 </head>
@@ -232,7 +265,7 @@
                     </div>
                 </div>
 
-                <!-- Q3: Student Category -->
+                <!-- Q3: Student Category - Enhanced Specify -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">3</span>
@@ -240,48 +273,55 @@
                     </h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
                         <label class="cursor-pointer option-hover p-2 rounded-lg border-2 border-gray-200 transition-all">
-                            <input type="radio" name="student_category" value="First Year Student (Bachelor)" class="hidden radio-custom" onchange="updateProgress()">
+                            <input type="radio" name="student_category" value="First Year Student (Bachelor)" class="hidden radio-custom" onchange="updateProgress(); toggleSpecifyField('category-specify-container', false)">
                             <div>First Year Student (Bachelor)</div>
                         </label>
                         <label class="cursor-pointer option-hover p-2 rounded-lg border-2 border-gray-200 transition-all">
-                            <input type="radio" name="student_category" value="Second Year Student (Bachelor)" class="hidden radio-custom" onchange="updateProgress()">
+                            <input type="radio" name="student_category" value="Second Year Student (Bachelor)" class="hidden radio-custom" onchange="updateProgress(); toggleSpecifyField('category-specify-container', false)">
                             <div>Second Year Student (Bachelor)</div>
                         </label>
                         <label class="cursor-pointer option-hover p-2 rounded-lg border-2 border-gray-200 transition-all">
-                            <input type="radio" name="student_category" value="Third Year Student (Bachelor)" class="hidden radio-custom" onchange="updateProgress()">
+                            <input type="radio" name="student_category" value="Third Year Student (Bachelor)" class="hidden radio-custom" onchange="updateProgress(); toggleSpecifyField('category-specify-container', false)">
                             <div>Third Year Student (Bachelor)</div>
                         </label>
                         <label class="cursor-pointer option-hover p-2 rounded-lg border-2 border-gray-200 transition-all">
-                            <input type="radio" name="student_category" value="First Year Student (Diploma)" class="hidden radio-custom" onchange="updateProgress()">
+                            <input type="radio" name="student_category" value="First Year Student (Diploma)" class="hidden radio-custom" onchange="updateProgress(); toggleSpecifyField('category-specify-container', false)">
                             <div>First Year Student (Diploma)</div>
                         </label>
                         <label class="cursor-pointer option-hover p-2 rounded-lg border-2 border-gray-200 transition-all">
-                            <input type="radio" name="student_category" value="Second Year Student (Diploma)" class="hidden radio-custom" onchange="updateProgress()">
+                            <input type="radio" name="student_category" value="Second Year Student (Diploma)" class="hidden radio-custom" onchange="updateProgress(); toggleSpecifyField('category-specify-container', false)">
                             <div>Second Year Student (Diploma)</div>
                         </label>
                         <label class="cursor-pointer option-hover p-2 rounded-lg border-2 border-gray-200 transition-all">
-                            <input type="radio" name="student_category" value="First Year Student (Certificate)" class="hidden radio-custom" onchange="updateProgress()">
+                            <input type="radio" name="student_category" value="First Year Student (Certificate)" class="hidden radio-custom" onchange="updateProgress(); toggleSpecifyField('category-specify-container', false)">
                             <div>First Year Student (Certificate)</div>
                         </label>
                         <label class="cursor-pointer option-hover p-2 rounded-lg border-2 border-gray-200 transition-all">
-                            <input type="radio" name="student_category" value="Post-graduate Student (First Year)" class="hidden radio-custom" onchange="updateProgress()">
+                            <input type="radio" name="student_category" value="Post-graduate Student (First Year)" class="hidden radio-custom" onchange="updateProgress(); toggleSpecifyField('category-specify-container', false)">
                             <div>Post-graduate Student (First Year)</div>
                         </label>
                         <label class="cursor-pointer option-hover p-2 rounded-lg border-2 border-gray-200 transition-all">
-                            <input type="radio" name="student_category" value="Post-graduate Student (Second Year)" class="hidden radio-custom" onchange="updateProgress()">
+                            <input type="radio" name="student_category" value="Post-graduate Student (Second Year)" class="hidden radio-custom" onchange="updateProgress(); toggleSpecifyField('category-specify-container', false)">
                             <div>Post-graduate Student (Second Year)</div>
                         </label>
                         <label class="cursor-pointer option-hover p-2 rounded-lg border-2 border-gray-200 transition-all md:col-span-2">
-                            <input type="radio" name="student_category" value="Others" class="hidden radio-custom" onchange="toggleSpecify(this, 'category-specify')">
-                            <div class="flex items-center justify-between">
-                                <span>Others (Specify)</span>
-                                <input type="text" id="category-specify" class="hidden ml-2 flex-1 p-1 border rounded text-xs" placeholder="Specify...">
+                            <input type="radio" name="student_category" value="Others" class="hidden radio-custom" onchange="updateProgress(); toggleSpecifyField('category-specify-container', true)">
+                            <div class="flex items-center">
+                                <i class="fas fa-edit text-indigo-500 mr-2"></i>
+                                <span>Others (Please specify below)</span>
                             </div>
                         </label>
                     </div>
+                    <!-- Active Specify Field -->
+                    <div id="category-specify-container" class="specify-input">
+                        <div class="specify-container">
+                            <label class="block text-xs font-semibold text-blue-800 mb-1">Please specify your student category:</label>
+                            <input type="text" name="student_category_specify" class="specify-field text-sm" placeholder="Enter your specific category..." oninput="updateProgress()">
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Q4: Regional Centre -->
+                <!-- Q4: Regional Centre - Enhanced Specify -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">4</span>
@@ -289,24 +329,31 @@
                     </h3>
                     <div class="space-y-2 text-sm">
                         <label class="cursor-pointer option-hover p-3 rounded-lg border-2 border-gray-200 transition-all block">
-                            <input type="radio" name="regional_centre" value="Kinondoni Regional Centre" class="hidden radio-custom" onchange="updateProgress()">
+                            <input type="radio" name="regional_centre" value="Kinondoni Regional Centre" class="hidden radio-custom" onchange="updateProgress(); toggleSpecifyField('centre-specify-container', false)">
                             <div>Kinondoni Regional Centre</div>
                         </label>
                         <label class="cursor-pointer option-hover p-3 rounded-lg border-2 border-gray-200 transition-all block">
-                            <input type="radio" name="regional_centre" value="Ilala Regional Centre" class="hidden radio-custom" onchange="updateProgress()">
+                            <input type="radio" name="regional_centre" value="Ilala Regional Centre" class="hidden radio-custom" onchange="updateProgress(); toggleSpecifyField('centre-specify-container', false)">
                             <div>Ilala Regional Centre</div>
                         </label>
                         <label class="cursor-pointer option-hover p-3 rounded-lg border-2 border-gray-200 transition-all block">
-                            <input type="radio" name="regional_centre" value="Others" class="hidden radio-custom" onchange="toggleSpecify(this, 'centre-specify')">
-                            <div class="flex items-center justify-between">
-                                <span>Others (Specify)</span>
-                                <input type="text" id="centre-specify" class="hidden ml-2 flex-1 p-1 border rounded text-xs" placeholder="Specify...">
+                            <input type="radio" name="regional_centre" value="Others" class="hidden radio-custom" onchange="updateProgress(); toggleSpecifyField('centre-specify-container', true)">
+                            <div class="flex items-center">
+                                <i class="fas fa-map-marker-alt text-indigo-500 mr-2"></i>
+                                <span>Other Regional Centre (Please specify below)</span>
                             </div>
                         </label>
                     </div>
+                    <!-- Active Specify Field -->
+                    <div id="centre-specify-container" class="specify-input">
+                        <div class="specify-container">
+                            <label class="block text-xs font-semibold text-blue-800 mb-1">Please specify your regional centre:</label>
+                            <input type="text" name="regional_centre_specify" class="specify-field text-sm" placeholder="Enter your regional centre name..." oninput="updateProgress()">
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Q5: Faculty Affiliation (NEW) -->
+                <!-- Q5: Faculty Affiliation -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">5</span>
@@ -344,7 +391,7 @@
                     </div>
                 </div>
 
-                <!-- Q6: Degree Programme (NEW) -->
+                <!-- Q6: Degree Programme -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">6</span>
@@ -369,7 +416,7 @@
                     </div>
                 </div>
 
-                <!-- Q7: OER Awareness Level (Renumbered from Q5) -->
+                <!-- Q7: OER Awareness Level -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">7</span>
@@ -409,7 +456,7 @@
                     </div>
                 </div>
 
-                <!-- Q8: How Learned About OER (Conditional) (Renumbered from Q6) -->
+                <!-- Q8: How Learned About OER (Conditional) - Enhanced Specify -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100 conditional-box" id="q8-container" style="display:none;">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">8</span>
@@ -450,16 +497,23 @@
                             <div>OER Repositories (Eg. MERLOT)</div>
                         </label>
                         <label class="cursor-pointer option-hover p-2 rounded-lg border-2 border-gray-200 transition-all bg-white md:col-span-2">
-                            <input type="checkbox" name="learned_oer" value="Others" class="hidden checkbox-custom" onchange="toggleSpecify(this, 'learned-specify')">
-                            <div class="flex items-center justify-between">
-                                <span>Others (Specify)</span>
-                                <input type="text" id="learned-specify" class="hidden ml-2 flex-1 p-1 border rounded" placeholder="Specify...">
+                            <input type="checkbox" name="learned_oer" value="Others" class="hidden checkbox-custom" onchange="toggleSpecifyCheckbox(this, 'learned-specify-container')">
+                            <div class="flex items-center">
+                                <i class="fas fa-plus-circle text-indigo-500 mr-2"></i>
+                                <span>Others (Please specify below)</span>
                             </div>
                         </label>
                     </div>
+                    <!-- Active Specify Field -->
+                    <div id="learned-specify-container" class="specify-input">
+                        <div class="specify-container">
+                            <label class="block text-xs font-semibold text-blue-800 mb-1">Please specify how you learned about OER:</label>
+                            <input type="text" name="learned_oer_specify" class="specify-field text-sm" placeholder="Enter other sources..." oninput="updateProgress()">
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Q9: Concepts Awareness (Matrix) (Renumbered from Q7) -->
+                <!-- Q9: Concepts Awareness (Matrix) -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">9</span>
@@ -514,7 +568,7 @@
                     </div>
                 </div>
 
-                <!-- Q10: Internet Access (Renumbered from Q8) -->
+                <!-- Q10: Internet Access -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">10</span>
@@ -541,7 +595,7 @@
                     </p>
                 </div>
 
-                <!-- Q11: Internet Location (Conditional) (Renumbered from Q9) -->
+                <!-- Q11: Internet Location (Conditional) - Enhanced Specify -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100 conditional-internet" style="display:none;">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">11</span>
@@ -571,10 +625,10 @@
                                     <td class="p-2 border border-gray-200 text-center"><input type="checkbox" name="loc_office_mobile" class="w-4 h-4 rounded text-indigo-600" onchange="updateProgress()"></td>
                                 </tr>
                                 <tr class="hover:bg-gray-50">
-                                    <td class="p-2 border border-gray-200">Other University Premises (Specify in box below)</td>
-                                    <td class="p-2 border border-gray-200 text-center"><input type="checkbox" name="loc_other_uni_wifi" class="w-4 h-4 rounded text-indigo-600" onchange="updateProgress()"></td>
-                                    <td class="p-2 border border-gray-200 text-center"><input type="checkbox" name="loc_other_uni_lan" class="w-4 h-4 rounded text-indigo-600" onchange="updateProgress()"></td>
-                                    <td class="p-2 border border-gray-200 text-center"><input type="checkbox" name="loc_other_uni_mobile" class="w-4 h-4 rounded text-indigo-600" onchange="updateProgress()"></td>
+                                    <td class="p-2 border border-gray-200">Other University Premises <span class="text-blue-600 font-semibold">(Specify below)</span></td>
+                                    <td class="p-2 border border-gray-200 text-center"><input type="checkbox" name="loc_other_uni_wifi" class="w-4 h-4 rounded text-indigo-600" onchange="toggleSpecifyCheckbox(this, 'other-uni-container'); updateProgress()"></td>
+                                    <td class="p-2 border border-gray-200 text-center"><input type="checkbox" name="loc_other_uni_lan" class="w-4 h-4 rounded text-indigo-600" onchange="toggleSpecifyCheckbox(this, 'other-uni-container'); updateProgress()"></td>
+                                    <td class="p-2 border border-gray-200 text-center"><input type="checkbox" name="loc_other_uni_mobile" class="w-4 h-4 rounded text-indigo-600" onchange="toggleSpecifyCheckbox(this, 'other-uni-container'); updateProgress()"></td>
                                 </tr>
                                 <tr class="hover:bg-gray-50">
                                     <td class="p-2 border border-gray-200">Home</td>
@@ -589,21 +643,30 @@
                                     <td class="p-2 border border-gray-200 text-center"><input type="checkbox" name="loc_cafe_mobile" class="w-4 h-4 rounded text-indigo-600" onchange="updateProgress()"></td>
                                 </tr>
                                 <tr class="hover:bg-gray-50">
-                                    <td class="p-2 border border-gray-200">Others (Specify in box below)</td>
-                                    <td class="p-2 border border-gray-200 text-center"><input type="checkbox" name="loc_others_wifi" class="w-4 h-4 rounded text-indigo-600" onchange="updateProgress()"></td>
-                                    <td class="p-2 border border-gray-200 text-center"><input type="checkbox" name="loc_others_lan" class="w-4 h-4 rounded text-indigo-600" onchange="updateProgress()"></td>
-                                    <td class="p-2 border border-gray-200 text-center"><input type="checkbox" name="loc_others_mobile" class="w-4 h-4 rounded text-indigo-600" onchange="updateProgress()"></td>
+                                    <td class="p-2 border border-gray-200">Others <span class="text-blue-600 font-semibold">(Specify below)</span></td>
+                                    <td class="p-2 border border-gray-200 text-center"><input type="checkbox" name="loc_others_wifi" class="w-4 h-4 rounded text-indigo-600" onchange="toggleSpecifyCheckbox(this, 'other-loc-container'); updateProgress()"></td>
+                                    <td class="p-2 border border-gray-200 text-center"><input type="checkbox" name="loc_others_lan" class="w-4 h-4 rounded text-indigo-600" onchange="toggleSpecifyCheckbox(this, 'other-loc-container'); updateProgress()"></td>
+                                    <td class="p-2 border border-gray-200 text-center"><input type="checkbox" name="loc_others_mobile" class="w-4 h-4 rounded text-indigo-600" onchange="toggleSpecifyCheckbox(this, 'other-loc-container'); updateProgress()"></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                    <div class="mt-3 grid grid-cols-1 md:grid-cols-2 gap-2">
-                        <input type="text" name="other_uni_specify" class="p-2 border border-gray-300 rounded text-xs" placeholder="Other University Premises (Specify)...">
-                        <input type="text" name="other_location_specify" class="p-2 border border-gray-300 rounded text-xs" placeholder="Other Locations (Specify)...">
+                    <!-- Active Specify Fields -->
+                    <div id="other-uni-container" class="specify-input">
+                        <div class="specify-container mt-2">
+                            <label class="block text-xs font-semibold text-blue-800 mb-1">Specify other university premises:</label>
+                            <input type="text" name="other_uni_specify" class="specify-field text-sm" placeholder="Enter specific location..." oninput="updateProgress()">
+                        </div>
+                    </div>
+                    <div id="other-loc-container" class="specify-input">
+                        <div class="specify-container mt-2">
+                            <label class="block text-xs font-semibold text-blue-800 mb-1">Specify other locations:</label>
+                            <input type="text" name="other_location_specify" class="specify-field text-sm" placeholder="Enter other locations..." oninput="updateProgress()">
+                        </div>
                     </div>
                 </div>
 
-                <!-- Q12: Devices (Renumbered from Q10) -->
+                <!-- Q12: Devices - Enhanced Specify -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100 conditional-internet" style="display:none;">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">12</span>
@@ -627,12 +690,19 @@
                             <div class="flex items-center"><i class="fas fa-tablet-alt mr-2 text-gray-600"></i><span>Tablet</span></div>
                         </label>
                         <label class="cursor-pointer option-hover p-3 rounded-lg border-2 border-gray-200 transition-all md:col-span-2">
-                            <input type="checkbox" name="devices" value="Others" class="hidden checkbox-custom" onchange="toggleSpecify(this, 'devices-specify')">
-                            <div class="flex items-center justify-between">
-                                <span>Others (Specify)</span>
-                                <input type="text" id="devices-specify" class="hidden ml-2 flex-1 p-1 border rounded text-xs" placeholder="Specify...">
+                            <input type="checkbox" name="devices" value="Others" class="hidden checkbox-custom" onchange="toggleSpecifyCheckbox(this, 'devices-specify-container')">
+                            <div class="flex items-center">
+                                <i class="fas fa-plus-circle text-indigo-500 mr-2"></i>
+                                <span>Other devices (Please specify below)</span>
                             </div>
                         </label>
+                    </div>
+                    <!-- Active Specify Field -->
+                    <div id="devices-specify-container" class="specify-input">
+                        <div class="specify-container">
+                            <label class="block text-xs font-semibold text-blue-800 mb-1">Please specify other devices:</label>
+                            <input type="text" name="devices_specify" class="specify-field text-sm" placeholder="Enter other device types..." oninput="updateProgress()">
+                        </div>
                     </div>
                 </div>
 
@@ -643,7 +713,7 @@
                     </p>
                 </div>
 
-                <!-- Q13: Digital Competence (Renumbered from Q11) -->
+                <!-- Q13: Digital Competence -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">13</span>
@@ -674,7 +744,7 @@
                     <p class="text-xs font-bold text-indigo-800">Section E: Usage of OER</p>
                 </div>
 
-                <!-- Q14: Used OER (Renumbered from Q12) -->
+                <!-- Q14: Used OER -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">14</span>
@@ -699,7 +769,7 @@
                     </p>
                 </div>
 
-                <!-- Q15: OER Repositories Usage (Conditional - Yes only) (Renumbered from Q13) -->
+                <!-- Q15: OER Repositories Usage (Conditional - Yes only) - Enhanced Specify -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100 conditional-oer-yes" style="display:none;">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">15</span>
@@ -826,13 +896,20 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="mt-2">
-                        <label class="block text-xs font-medium text-gray-700 mb-1">Others (Please specify):</label>
-                        <input type="text" name="other_repositories" class="w-full p-2 border border-gray-300 rounded text-xs" placeholder="List other repositories you use...">
+                    <!-- Enhanced Other Repositories Specify -->
+                    <div class="mt-3">
+                        <label class="block text-xs font-medium text-gray-700 mb-1 flex items-center">
+                            <i class="fas fa-plus-circle text-indigo-500 mr-1"></i>
+                            Other repositories (Please specify):
+                        </label>
+                        <div class="bg-blue-50 border-2 border-dashed border-blue-300 rounded-lg p-2">
+                            <input type="text" name="other_repositories" class="w-full p-2 border border-gray-300 rounded text-xs focus:border-indigo-500 focus:outline-none" placeholder="List other repositories you use..." oninput="updateProgress()">
+                            <p class="text-xs text-blue-600 mt-1 italic">Separate multiple repositories with commas</p>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Q16: Types of OER Materials (Renumbered from Q14) -->
+                <!-- Q16: Types of OER Materials - Enhanced Specify -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100 conditional-oer-yes" style="display:none;">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">16</span>
@@ -888,16 +965,23 @@
                             <div>Projects</div>
                         </label>
                         <label class="cursor-pointer option-hover p-2 rounded-lg border-2 border-gray-200 transition-all md:col-span-3">
-                            <input type="checkbox" name="oer_types" value="Others" class="hidden checkbox-custom" onchange="toggleSpecify(this, 'oer-types-specify')">
-                            <div class="flex items-center justify-between">
-                                <span>Others (Specify)</span>
-                                <input type="text" id="oer-types-specify" class="hidden ml-2 flex-1 p-1 border rounded" placeholder="Specify...">
+                            <input type="checkbox" name="oer_types" value="Others" class="hidden checkbox-custom" onchange="toggleSpecifyCheckbox(this, 'oer-types-specify-container')">
+                            <div class="flex items-center">
+                                <i class="fas fa-plus-circle text-indigo-500 mr-2"></i>
+                                <span>Other material types (Please specify below)</span>
                             </div>
                         </label>
                     </div>
+                    <!-- Active Specify Field -->
+                    <div id="oer-types-specify-container" class="specify-input">
+                        <div class="specify-container">
+                            <label class="block text-xs font-semibold text-blue-800 mb-1">Please specify other OER material types:</label>
+                            <input type="text" name="oer_types_specify" class="specify-field text-sm" placeholder="Enter other material types..." oninput="updateProgress()">
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Q17: Preferred Format (Renumbered from Q15) -->
+                <!-- Q17: Preferred Format - Enhanced Specify -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100 conditional-oer-yes" style="display:none;">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">17</span>
@@ -905,28 +989,35 @@
                     </h3>
                     <div class="grid grid-cols-2 gap-2 text-sm">
                         <label class="cursor-pointer option-hover p-3 rounded-lg border-2 border-gray-200 transition-all">
-                            <input type="radio" name="preferred_format" value="Video" class="hidden radio-custom" onchange="updateProgress()">
+                            <input type="radio" name="preferred_format" value="Video" class="hidden radio-custom" onchange="updateProgress(); toggleSpecifyField('format-specify-container', false)">
                             <div class="flex items-center"><i class="fas fa-video text-red-500 mr-2"></i><span>Video (eg. YouTube)</span></div>
                         </label>
                         <label class="cursor-pointer option-hover p-3 rounded-lg border-2 border-gray-200 transition-all">
-                            <input type="radio" name="preferred_format" value="Text" class="hidden radio-custom" onchange="updateProgress()">
+                            <input type="radio" name="preferred_format" value="Text" class="hidden radio-custom" onchange="updateProgress(); toggleSpecifyField('format-specify-container', false)">
                             <div class="flex items-center"><i class="fas fa-file-alt text-blue-500 mr-2"></i><span>Text</span></div>
                         </label>
                         <label class="cursor-pointer option-hover p-3 rounded-lg border-2 border-gray-200 transition-all">
-                            <input type="radio" name="preferred_format" value="Audio" class="hidden radio-custom" onchange="updateProgress()">
+                            <input type="radio" name="preferred_format" value="Audio" class="hidden radio-custom" onchange="updateProgress(); toggleSpecifyField('format-specify-container', false)">
                             <div class="flex items-center"><i class="fas fa-headphones text-green-500 mr-2"></i><span>Audio</span></div>
                         </label>
                         <label class="cursor-pointer option-hover p-3 rounded-lg border-2 border-gray-200 transition-all">
-                            <input type="radio" name="preferred_format" value="Others" class="hidden radio-custom" onchange="toggleSpecify(this, 'format-specify')">
-                            <div class="flex items-center justify-between">
-                                <span>Others (Specify)</span>
-                                <input type="text" id="format-specify" class="hidden ml-2 flex-1 p-1 border rounded text-xs" placeholder="Specify...">
+                            <input type="radio" name="preferred_format" value="Others" class="hidden radio-custom" onchange="updateProgress(); toggleSpecifyField('format-specify-container', true)">
+                            <div class="flex items-center">
+                                <i class="fas fa-plus-circle text-indigo-500 mr-2"></i>
+                                <span>Other format (Specify below)</span>
                             </div>
                         </label>
                     </div>
+                    <!-- Active Specify Field -->
+                    <div id="format-specify-container" class="specify-input">
+                        <div class="specify-container">
+                            <label class="block text-xs font-semibold text-blue-800 mb-1">Please specify your preferred format:</label>
+                            <input type="text" name="preferred_format_specify" class="specify-field text-sm" placeholder="Enter preferred format..." oninput="updateProgress()">
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Q18: Preferred Medium (Renumbered from Q16) -->
+                <!-- Q18: Preferred Medium -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100 conditional-oer-yes" style="display:none;">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">18</span>
@@ -950,7 +1041,7 @@
                     </div>
                 </div>
 
-                <!-- Q19: Purposes (Renumbered from Q17) -->
+                <!-- Q19: Purposes - Enhanced Specify -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100 conditional-oer-yes" style="display:none;">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">19</span>
@@ -990,16 +1081,23 @@
                             <div>Consultancy services</div>
                         </label>
                         <label class="cursor-pointer option-hover p-2 rounded-lg border-2 border-gray-200 transition-all md:col-span-2">
-                            <input type="checkbox" name="oer_purposes" value="Others" class="hidden checkbox-custom" onchange="toggleSpecify(this, 'purposes-specify')">
-                            <div class="flex items-center justify-between">
-                                <span>Others (Specify)</span>
-                                <input type="text" id="purposes-specify" class="hidden ml-2 flex-1 p-1 border rounded" placeholder="Specify...">
+                            <input type="checkbox" name="oer_purposes" value="Others" class="hidden checkbox-custom" onchange="toggleSpecifyCheckbox(this, 'purposes-specify-container')">
+                            <div class="flex items-center">
+                                <i class="fas fa-plus-circle text-indigo-500 mr-2"></i>
+                                <span>Other purposes (Please specify below)</span>
                             </div>
                         </label>
                     </div>
+                    <!-- Active Specify Field -->
+                    <div id="purposes-specify-container" class="specify-input">
+                        <div class="specify-container">
+                            <label class="block text-xs font-semibold text-blue-800 mb-1">Please specify other purposes:</label>
+                            <input type="text" name="oer_purposes_specify" class="specify-field text-sm" placeholder="Enter other purposes..." oninput="updateProgress()">
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Q20: Search Tools (Renumbered from Q18) -->
+                <!-- Q20: Search Tools - Enhanced Specify -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100 conditional-oer-yes" style="display:none;">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">20</span>
@@ -1031,16 +1129,23 @@
                             <div class="flex items-center"><i class="fas fa-university mr-2 text-indigo-500"></i><span>Listing from library website</span></div>
                         </label>
                         <label class="cursor-pointer option-hover p-2 rounded-lg border-2 border-gray-200 transition-all">
-                            <input type="checkbox" name="search_tools" value="Others" class="hidden checkbox-custom" onchange="toggleSpecify(this, 'search-specify')">
-                            <div class="flex items-center justify-between">
-                                <span>Others (Specify)</span>
-                                <input type="text" id="search-specify" class="hidden ml-2 flex-1 p-1 border rounded" placeholder="Specify...">
+                            <input type="checkbox" name="search_tools" value="Others" class="hidden checkbox-custom" onchange="toggleSpecifyCheckbox(this, 'search-specify-container')">
+                            <div class="flex items-center">
+                                <i class="fas fa-plus-circle text-indigo-500 mr-2"></i>
+                                <span>Other search tools (Please specify below)</span>
                             </div>
                         </label>
                     </div>
+                    <!-- Active Specify Field -->
+                    <div id="search-specify-container" class="specify-input">
+                        <div class="specify-container">
+                            <label class="block text-xs font-semibold text-blue-800 mb-1">Please specify other search tools:</label>
+                            <input type="text" name="search_tools_specify" class="specify-field text-sm" placeholder="Enter other search tools..." oninput="updateProgress()">
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Q21: Training (Renumbered from Q19) -->
+                <!-- Q21: Training - Enhanced with active fields -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100 conditional-oer-yes" style="display:none;">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">21</span>
@@ -1055,7 +1160,7 @@
                             </div>
                             <div id="training-yes-detail" class="hidden ml-6 mt-2">
                                 <label class="block text-xs text-gray-600 mb-1">Indicate where training was conducted:</label>
-                                <input type="text" name="training_location" class="w-full p-2 border border-gray-300 rounded text-xs" placeholder="Enter training location...">
+                                <input type="text" name="training_location" class="w-full p-2 border border-gray-300 rounded text-xs focus:border-indigo-500 focus:outline-none" placeholder="Enter training location..." oninput="updateProgress()">
                             </div>
                         </label>
                         <label class="cursor-pointer option-hover p-3 rounded-lg border-2 border-gray-200 transition-all block">
@@ -1066,13 +1171,13 @@
                             </div>
                             <div id="training-no-detail" class="hidden ml-6 mt-2">
                                 <label class="block text-xs text-gray-600 mb-1">Please explain why:</label>
-                                <textarea name="training_why_not" class="w-full p-2 border border-gray-300 rounded text-xs" rows="2" placeholder="Explain why you haven't attended training..."></textarea>
+                                <textarea name="training_why_not" class="w-full p-2 border border-gray-300 rounded text-xs focus:border-indigo-500 focus:outline-none" rows="2" placeholder="Explain why you haven't attended training..." oninput="updateProgress()"></textarea>
                             </div>
                         </label>
                     </div>
                 </div>
 
-                <!-- Q22: Search Techniques (Renumbered from Q20) -->
+                <!-- Q22: Search Techniques - Enhanced Specify -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100 conditional-oer-yes" style="display:none;">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">22</span>
@@ -1100,16 +1205,23 @@
                             <div>I Don't Know</div>
                         </label>
                         <label class="cursor-pointer option-hover p-2 rounded-lg border-2 border-gray-200 transition-all">
-                            <input type="checkbox" name="search_techniques" value="Others" class="hidden checkbox-custom" onchange="toggleSpecify(this, 'techniques-specify')">
-                            <div class="flex items-center justify-between">
-                                <span>Others (Specify)</span>
-                                <input type="text" id="techniques-specify" class="hidden ml-2 flex-1 p-1 border rounded" placeholder="Specify...">
+                            <input type="checkbox" name="search_techniques" value="Others" class="hidden checkbox-custom" onchange="toggleSpecifyCheckbox(this, 'techniques-specify-container')">
+                            <div class="flex items-center">
+                                <i class="fas fa-plus-circle text-indigo-500 mr-2"></i>
+                                <span>Other techniques (Specify)</span>
                             </div>
                         </label>
                     </div>
+                    <!-- Active Specify Field -->
+                    <div id="techniques-specify-container" class="specify-input">
+                        <div class="specify-container">
+                            <label class="block text-xs font-semibold text-blue-800 mb-1">Please specify other search techniques:</label>
+                            <input type="text" name="search_techniques_specify" class="specify-field text-sm" placeholder="Enter other techniques..." oninput="updateProgress()">
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Q23: Evaluation (Renumbered from Q21) -->
+                <!-- Q23: Evaluation - Enhanced Specify -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100 conditional-oer-yes" style="display:none;">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">23</span>
@@ -1149,12 +1261,19 @@
                             <div>I don't evaluate the relevance of OER</div>
                         </label>
                         <label class="cursor-pointer option-hover p-2 rounded-lg border-2 border-gray-200 transition-all">
-                            <input type="checkbox" name="evaluation" value="Others" class="hidden checkbox-custom" onchange="toggleSpecify(this, 'evaluation-specify')">
-                            <div class="flex items-center justify-between">
-                                <span>Others (Specify)</span>
-                                <input type="text" id="evaluation-specify" class="hidden ml-2 flex-1 p-1 border rounded" placeholder="Specify...">
+                            <input type="checkbox" name="evaluation" value="Others" class="hidden checkbox-custom" onchange="toggleSpecifyCheckbox(this, 'evaluation-specify-container')">
+                            <div class="flex items-center">
+                                <i class="fas fa-plus-circle text-indigo-500 mr-2"></i>
+                                <span>Other evaluation methods (Specify below)</span>
                             </div>
                         </label>
+                    </div>
+                    <!-- Active Specify Field -->
+                    <div id="evaluation-specify-container" class="specify-input">
+                        <div class="specify-container">
+                            <label class="block text-xs font-semibold text-blue-800 mb-1">Please specify other evaluation methods:</label>
+                            <input type="text" name="evaluation_specify" class="specify-field text-sm" placeholder="Enter other methods..." oninput="updateProgress()">
+                        </div>
                     </div>
                 </div>
 
@@ -1167,7 +1286,7 @@
                     </p>
                 </div>
 
-                <!-- Q24: Why Not Use OER (Conditional - No/DK only) (Renumbered from Q22) -->
+                <!-- Q24: Why Not Use OER (Conditional - No/DK only) -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100 conditional-oer-no" style="display:none;">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">24</span>
@@ -1176,7 +1295,7 @@
                     <textarea name="why_not_oer" class="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-indigo-500 focus:outline-none text-sm" rows="4" placeholder="Please explain your reasons..." oninput="updateProgress()"></textarea>
                 </div>
 
-                <!-- Q25: Opinion on OER (Conditional - No/DK only) (Renumbered from Q23) -->
+                <!-- Q25: Opinion on OER (Conditional - No/DK only) -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100 conditional-oer-no" style="display:none;">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">25</span>
@@ -1218,7 +1337,7 @@
                     </p>
                 </div>
 
-                <!-- Q26: Likert Scale Statements (Renumbered from Q24) -->
+                <!-- Q26: Likert Scale Statements -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100 conditional-oer-yes" style="display:none;">
                     <h3 class="font-semibold text-gray-800 mb-4 flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">26</span>
@@ -1384,7 +1503,7 @@
                     </div>
                 </div>
 
-                <!-- Q27: Ability to Find OER (Renumbered from Q25) -->
+                <!-- Q27: Ability to Find OER - Enhanced Specify -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100 conditional-oer-yes" style="display:none;">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">27</span>
@@ -1392,25 +1511,35 @@
                     </h3>
                     <div class="space-y-2 text-sm">
                         <label class="cursor-pointer option-hover p-3 rounded-lg border-2 border-gray-200 transition-all block">
-                            <input type="radio" name="find_ability" value="Extremely easy" class="hidden radio-custom" onchange="updateProgress()">
+                            <input type="radio" name="find_ability" value="Extremely easy" class="hidden radio-custom" onchange="updateProgress(); toggleSpecifyField('ability-specify-container', false)">
                             <div class="flex items-center"><i class="fas fa-smile-beam text-green-500 text-xl mr-3"></i><div><span class="font-medium block">Extremely easy</span><span class="text-xs text-gray-500">I can find what I need immediately</span></div></div>
                         </label>
                         <label class="cursor-pointer option-hover p-3 rounded-lg border-2 border-gray-200 transition-all block">
-                            <input type="radio" name="find_ability" value="Easy" class="hidden radio-custom" onchange="updateProgress()">
+                            <input type="radio" name="find_ability" value="Easy" class="hidden radio-custom" onchange="updateProgress(); toggleSpecifyField('ability-specify-container', false)">
                             <div class="flex items-center"><i class="fas fa-smile text-green-400 text-xl mr-3"></i><div><span class="font-medium block">Easy</span><span class="text-xs text-gray-500">I can usually find what I need with little effort</span></div></div>
                         </label>
                         <label class="cursor-pointer option-hover p-3 rounded-lg border-2 border-gray-200 transition-all block">
-                            <input type="radio" name="find_ability" value="Neither easy nor difficult" class="hidden radio-custom" onchange="updateProgress()">
+                            <input type="radio" name="find_ability" value="Neither easy nor difficult" class="hidden radio-custom" onchange="updateProgress(); toggleSpecifyField('ability-specify-container', false)">
                             <div class="flex items-center"><i class="fas fa-meh text-yellow-500 text-xl mr-3"></i><div><span class="font-medium block">Neither easy nor difficult</span><span class="text-xs text-gray-500">Sometimes I find what I need, sometimes not</span></div></div>
                         </label>
                         <label class="cursor-pointer option-hover p-3 rounded-lg border-2 border-gray-200 transition-all block">
-                            <input type="radio" name="find_ability" value="Difficult" class="hidden radio-custom" onchange="updateProgress()">
+                            <input type="radio" name="find_ability" value="Difficult" class="hidden radio-custom" onchange="updateProgress(); toggleSpecifyField('ability-specify-container', false)">
                             <div class="flex items-center"><i class="fas fa-frown text-orange-500 text-xl mr-3"></i><div><span class="font-medium block">Difficult</span><span class="text-xs text-gray-500">I often struggle to find relevant resources</span></div></div>
                         </label>
                         <label class="cursor-pointer option-hover p-3 rounded-lg border-2 border-gray-200 transition-all block">
-                            <input type="radio" name="find_ability" value="Others" class="hidden radio-custom" onchange="toggleSpecify(this, 'ability-specify')">
-                            <div class="flex items-center justify-between"><span class="flex items-center"><i class="fas fa-ellipsis-h text-gray-500 text-xl mr-3"></i><span class="font-medium">Others (Specify)</span></span><input type="text" id="ability-specify" class="hidden ml-2 flex-1 p-1 border rounded text-xs" placeholder="Specify..."></div>
+                            <input type="radio" name="find_ability" value="Others" class="hidden radio-custom" onchange="updateProgress(); toggleSpecifyField('ability-specify-container', true)">
+                            <div class="flex items-center">
+                                <i class="fas fa-plus-circle text-indigo-500 text-xl mr-3"></i>
+                                <span class="font-medium">Other (Please specify below)</span>
+                            </div>
                         </label>
+                    </div>
+                    <!-- Active Specify Field -->
+                    <div id="ability-specify-container" class="specify-input">
+                        <div class="specify-container">
+                            <label class="block text-xs font-semibold text-blue-800 mb-1">Please specify:</label>
+                            <input type="text" name="find_ability_specify" class="specify-field text-sm" placeholder="Describe your experience..." oninput="updateProgress()">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1425,7 +1554,7 @@
                     </div>
                 </div>
 
-                <!-- Q28: Problems (Renumbered from Q26) -->
+                <!-- Q28: Problems - Enhanced Specify -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">28</span>
@@ -1493,12 +1622,19 @@
                             <div class="flex items-center"><i class="fas fa-book-dead mr-2 text-gray-400"></i><span>Not enough resources for my subject</span></div>
                         </label>
                         <label class="cursor-pointer option-hover p-2 rounded-lg border-2 border-gray-200 transition-all md:col-span-2">
-                            <input type="checkbox" name="challenges" value="Others" class="hidden checkbox-custom" onchange="toggleSpecify(this, 'challenges-specify')">
-                            <div class="flex items-center justify-between">
-                                <span>Others (Specify)</span>
-                                <input type="text" id="challenges-specify" class="hidden ml-2 flex-1 p-1 border rounded" placeholder="Specify...">
+                            <input type="checkbox" name="challenges" value="Others" class="hidden checkbox-custom" onchange="toggleSpecifyCheckbox(this, 'challenges-specify-container')">
+                            <div class="flex items-center">
+                                <i class="fas fa-plus-circle text-indigo-500 mr-2"></i>
+                                <span>Other challenges (Please specify below)</span>
                             </div>
                         </label>
+                    </div>
+                    <!-- Active Specify Field -->
+                    <div id="challenges-specify-container" class="specify-input">
+                        <div class="specify-container">
+                            <label class="block text-xs font-semibold text-blue-800 mb-1">Please specify other challenges:</label>
+                            <textarea name="challenges_specify" class="specify-field text-sm" rows="2" placeholder="Describe other challenges you face..." oninput="updateProgress()"></textarea>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1520,7 +1656,7 @@
                     </p>
                 </div>
 
-                <!-- Q29: Recommendations (Renumbered from Q27) -->
+                <!-- Q29: Recommendations -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">29</span>
@@ -1612,18 +1748,45 @@
             }
         }
 
-        // Toggle specify fields
-        function toggleSpecify(radio, inputId) {
-            const input = document.getElementById(inputId);
-            if (radio.checked) {
-                input.classList.remove('hidden');
-                input.focus();
-            } else {
-                input.classList.add('hidden');
+        // Toggle specify field for radio buttons (single select)
+        function toggleSpecifyField(containerId, show) {
+            const container = document.getElementById(containerId);
+            if (container) {
+                if (show) {
+                    container.classList.add('active');
+                    // Focus the input after a short delay for animation
+                    setTimeout(() => {
+                        const input = container.querySelector('input, textarea');
+                        if (input) input.focus();
+                    }, 300);
+                } else {
+                    container.classList.remove('active');
+                    // Clear the input when hiding
+                    const input = container.querySelector('input, textarea');
+                    if (input) input.value = '';
+                }
             }
         }
 
-        // Toggle conditional questions based on Q7 (renumbered from Q5)
+        // Toggle specify field for checkboxes (multiple select)
+        function toggleSpecifyCheckbox(checkbox, containerId) {
+            const container = document.getElementById(containerId);
+            if (container) {
+                if (checkbox.checked) {
+                    container.classList.add('active');
+                    setTimeout(() => {
+                        const input = container.querySelector('input, textarea');
+                        if (input) input.focus();
+                    }, 300);
+                } else {
+                    container.classList.remove('active');
+                    const input = container.querySelector('input, textarea');
+                    if (input) input.value = '';
+                }
+            }
+        }
+
+        // Toggle conditional questions based on Q7
         function toggleConditionalQuestions() {
             const q7 = document.querySelector('input[name="oer_awareness"]:checked');
             const q8 = document.getElementById('q8-container');
@@ -1632,37 +1795,94 @@
                 q8.style.display = 'block';
             } else {
                 q8.style.display = 'none';
+                // Reset checkboxes in Q8 when hidden
+                const checkboxes = q8.querySelectorAll('input[type="checkbox"]');
+                checkboxes.forEach(cb => {
+                    cb.checked = false;
+                    // Trigger change to hide any specify fields
+                    if (cb.onchange) cb.onchange();
+                });
             }
         }
 
-        // Toggle internet questions based on Q10 (renumbered from Q8)
+        // Toggle internet questions based on Q10
         function toggleInternetQuestions(show) {
             const questions = document.querySelectorAll('.conditional-internet');
             questions.forEach(q => {
                 q.style.display = show ? 'block' : 'none';
             });
+            if (!show) {
+                // Reset checkboxes and hide specify fields
+                questions.forEach(q => {
+                    const checkboxes = q.querySelectorAll('input[type="checkbox"]');
+                    checkboxes.forEach(cb => {
+                        cb.checked = false;
+                    });
+                    // Hide all specify containers
+                    const specifyContainers = q.querySelectorAll('.specify-input');
+                    specifyContainers.forEach(sc => sc.classList.remove('active'));
+                });
+            }
         }
 
-        // Toggle OER usage questions based on Q14 (renumbered from Q12)
+        // Toggle OER usage questions based on Q14
         function toggleOERUsage(hasUsed) {
             const yesQuestions = document.querySelectorAll('.conditional-oer-yes');
             const noQuestions = document.querySelectorAll('.conditional-oer-no');
             
             yesQuestions.forEach(q => q.style.display = hasUsed ? 'block' : 'none');
             noQuestions.forEach(q => q.style.display = hasUsed ? 'none' : 'block');
+            
+            if (!hasUsed) {
+                // Reset yes questions
+                yesQuestions.forEach(q => {
+                    const inputs = q.querySelectorAll('input[type="radio"], input[type="checkbox"]');
+                    inputs.forEach(inp => {
+                        inp.checked = false;
+                    });
+                    const specifyContainers = q.querySelectorAll('.specify-input');
+                    specifyContainers.forEach(sc => {
+                        sc.classList.remove('active');
+                        const input = sc.querySelector('input, textarea');
+                        if (input) input.value = '';
+                    });
+                });
+            } else {
+                // Reset no questions
+                noQuestions.forEach(q => {
+                    const textareas = q.querySelectorAll('textarea');
+                    textareas.forEach(ta => ta.value = '');
+                    const radios = q.querySelectorAll('input[type="radio"]');
+                    radios.forEach(r => r.checked = false);
+                });
+            }
         }
 
         // Toggle training details
         function toggleTraining(isYes) {
-            document.getElementById('training-yes-detail').style.display = isYes ? 'block' : 'none';
-            document.getElementById('training-no-detail').style.display = isYes ? 'none' : 'block';
+            const yesDetail = document.getElementById('training-yes-detail');
+            const noDetail = document.getElementById('training-no-detail');
+            
+            if (isYes) {
+                yesDetail.classList.remove('hidden');
+                noDetail.classList.add('hidden');
+                // Clear no detail
+                const noTextarea = noDetail.querySelector('textarea');
+                if (noTextarea) noTextarea.value = '';
+            } else {
+                yesDetail.classList.add('hidden');
+                noDetail.classList.remove('hidden');
+                // Clear yes detail
+                const yesInput = yesDetail.querySelector('input');
+                if (yesInput) yesInput.value = '';
+            }
         }
 
         // Update progress bar
         function updateProgress() {
             const form = document.getElementById('questionnaire-form');
             const inputs = form.querySelectorAll('input[type="radio"]:checked, input[type="checkbox"]:checked, textarea:not(:empty), input[type="text"]:not(:placeholder-shown)');
-            const totalQuestions = 29; // Updated to 29 questions
+            const totalQuestions = 29;
             const answered = new Set();
             
             inputs.forEach(input => {
@@ -1699,9 +1919,6 @@
             // Scroll to top
             window.scrollTo(0, 0);
             
-            // In a real application, you would send data to server here
-            console.log('Form submitted with reference:', refId);
-            
             // Collect form data
             const formData = new FormData(document.getElementById('questionnaire-form'));
             const data = {};
@@ -1724,9 +1941,9 @@
             clearTimeout(autoSaveTimer);
             autoSaveTimer = setTimeout(() => {
                 console.log('Auto-saving...');
-                // In real app: localStorage.setItem('oer_survey_draft', JSON.stringify(formData));
             }, 3000);
         });
     </script>
 </body>
 </html>
+
