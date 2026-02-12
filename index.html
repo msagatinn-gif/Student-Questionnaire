@@ -81,7 +81,7 @@
             overflow: hidden;
         }
         .specify-input.active {
-            max-height: 100px;
+            max-height: 200px;
             opacity: 1;
             margin-top: 0.5rem;
         }
@@ -136,6 +136,49 @@
             align-items: center;
             gap: 0.5rem;
         }
+        /* Print styles */
+        @media print {
+            body {
+                background: white;
+            }
+            .sticky-nav, .no-print {
+                display: none !important;
+            }
+            .glass-panel {
+                box-shadow: none;
+                border: 1px solid #ccc;
+                break-inside: avoid;
+            }
+            .question-card {
+                break-inside: avoid;
+            }
+        }
+        /* Validation styles */
+        .error-field {
+            border-color: #ef4444 !important;
+            background-color: #fef2f2 !important;
+        }
+        .error-message {
+            color: #dc2626;
+            font-size: 0.75rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+        .error-message.show {
+            display: block;
+        }
+        /* Loading state */
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+        .spinner {
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body class="pb-20">
@@ -179,6 +222,17 @@
             </h2>
             <div class="bg-indigo-50 rounded-lg p-3 text-sm text-indigo-800">
                 <i class="fas fa-user-graduate mr-2"></i> To be administered to Students
+            </div>
+            <div class="mt-4 flex justify-center gap-2 no-print">
+                <button onclick="window.print()" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm text-gray-700 transition-all">
+                    <i class="fas fa-print mr-2"></i>Print
+                </button>
+                <button onclick="exportDraft()" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm text-gray-700 transition-all">
+                    <i class="fas fa-download mr-2"></i>Save Draft
+                </button>
+                <button onclick="loadDraft()" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm text-gray-700 transition-all">
+                    <i class="fas fa-upload mr-2"></i>Load Draft
+                </button>
             </div>
         </div>
 
@@ -224,6 +278,7 @@
                     <input type="checkbox" id="consent-check" class="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500 mt-0.5" onchange="checkConsent()">
                     <span class="text-gray-800 font-medium text-sm">I have read the above information and agree to participate in this study</span>
                 </label>
+                <p id="consent-error" class="error-message">You must agree to participate before proceeding.</p>
             </div>
         </div>
 
@@ -240,104 +295,106 @@
                 </div>
 
                 <!-- Q1: Gender -->
-                <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100">
+                <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100" data-required="true">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">1</span>
-                        Gender
+                        Gender <span class="text-red-500 ml-1">*</span>
                     </h3>
                     <div class="grid grid-cols-2 gap-3">
                         <label class="cursor-pointer option-hover p-3 rounded-lg border-2 border-gray-200 transition-all">
-                            <input type="radio" name="gender" value="Male" class="hidden radio-custom" onchange="updateProgress()">
+                            <input type="radio" name="gender" value="Male" class="hidden radio-custom" onchange="updateProgress(); clearError(this)">
                             <div class="flex items-center justify-center">
                                 <i class="fas fa-mars text-blue-500 mr-2"></i>
                                 <span class="font-medium text-sm">Male</span>
                             </div>
                         </label>
                         <label class="cursor-pointer option-hover p-3 rounded-lg border-2 border-gray-200 transition-all">
-                            <input type="radio" name="gender" value="Female" class="hidden radio-custom" onchange="updateProgress()">
+                            <input type="radio" name="gender" value="Female" class="hidden radio-custom" onchange="updateProgress(); clearError(this)">
                             <div class="flex items-center justify-center">
                                 <i class="fas fa-venus text-pink-500 mr-2"></i>
                                 <span class="font-medium text-sm">Female</span>
                             </div>
                         </label>
                     </div>
+                    <p class="error-message" id="gender-error">Please select your gender.</p>
                 </div>
 
                 <!-- Q2: Age -->
-                <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100">
+                <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100" data-required="true">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">2</span>
-                        Age
+                        Age <span class="text-red-500 ml-1">*</span>
                     </h3>
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
                         <label class="cursor-pointer option-hover p-2 rounded-lg border-2 border-gray-200 transition-all text-sm">
-                            <input type="radio" name="age" value="Less than 20 years" class="hidden radio-custom" onchange="updateProgress()">
+                            <input type="radio" name="age" value="Less than 20 years" class="hidden radio-custom" onchange="updateProgress(); clearError(this)">
                             <div class="text-center"><span>&lt; 20 years</span></div>
                         </label>
                         <label class="cursor-pointer option-hover p-2 rounded-lg border-2 border-gray-200 transition-all text-sm">
-                            <input type="radio" name="age" value="21-30 years" class="hidden radio-custom" onchange="updateProgress()">
+                            <input type="radio" name="age" value="21-30 years" class="hidden radio-custom" onchange="updateProgress(); clearError(this)">
                             <div class="text-center"><span>21-30 years</span></div>
                         </label>
                         <label class="cursor-pointer option-hover p-2 rounded-lg border-2 border-gray-200 transition-all text-sm">
-                            <input type="radio" name="age" value="31-40 years" class="hidden radio-custom" onchange="updateProgress()">
+                            <input type="radio" name="age" value="31-40 years" class="hidden radio-custom" onchange="updateProgress(); clearError(this)">
                             <div class="text-center"><span>31-40 years</span></div>
                         </label>
                         <label class="cursor-pointer option-hover p-2 rounded-lg border-2 border-gray-200 transition-all text-sm">
-                            <input type="radio" name="age" value="41-50 years" class="hidden radio-custom" onchange="updateProgress()">
+                            <input type="radio" name="age" value="41-50 years" class="hidden radio-custom" onchange="updateProgress(); clearError(this)">
                             <div class="text-center"><span>41-50 years</span></div>
                         </label>
                         <label class="cursor-pointer option-hover p-2 rounded-lg border-2 border-gray-200 transition-all text-sm">
-                            <input type="radio" name="age" value="51-60 years" class="hidden radio-custom" onchange="updateProgress()">
+                            <input type="radio" name="age" value="51-60 years" class="hidden radio-custom" onchange="updateProgress(); clearError(this)">
                             <div class="text-center"><span>51-60 years</span></div>
                         </label>
                         <label class="cursor-pointer option-hover p-2 rounded-lg border-2 border-gray-200 transition-all text-sm">
-                            <input type="radio" name="age" value="61 years and above" class="hidden radio-custom" onchange="updateProgress()">
+                            <input type="radio" name="age" value="61 years and above" class="hidden radio-custom" onchange="updateProgress(); clearError(this)">
                             <div class="text-center"><span>61+ years</span></div>
                         </label>
                     </div>
+                    <p class="error-message" id="age-error">Please select your age group.</p>
                 </div>
 
                 <!-- Q3: Student Category - Enhanced Specify -->
-                <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100">
+                <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100" data-required="true">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">3</span>
-                        Which category of student do you belong to?
+                        Which category of student do you belong to? <span class="text-red-500 ml-1">*</span>
                     </h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
                         <label class="cursor-pointer option-hover p-2 rounded-lg border-2 border-gray-200 transition-all">
-                            <input type="radio" name="student_category" value="First Year Student (Bachelor)" class="hidden radio-custom" onchange="updateProgress(); toggleSpecifyField('category-specify-container', false)">
+                            <input type="radio" name="student_category" value="First Year Student (Bachelor)" class="hidden radio-custom" onchange="updateProgress(); toggleSpecifyField('category-specify-container', false); clearError(this)">
                             <div>First Year Student (Bachelor)</div>
                         </label>
                         <label class="cursor-pointer option-hover p-2 rounded-lg border-2 border-gray-200 transition-all">
-                            <input type="radio" name="student_category" value="Second Year Student (Bachelor)" class="hidden radio-custom" onchange="updateProgress(); toggleSpecifyField('category-specify-container', false)">
+                            <input type="radio" name="student_category" value="Second Year Student (Bachelor)" class="hidden radio-custom" onchange="updateProgress(); toggleSpecifyField('category-specify-container', false); clearError(this)">
                             <div>Second Year Student (Bachelor)</div>
                         </label>
                         <label class="cursor-pointer option-hover p-2 rounded-lg border-2 border-gray-200 transition-all">
-                            <input type="radio" name="student_category" value="Third Year Student (Bachelor)" class="hidden radio-custom" onchange="updateProgress(); toggleSpecifyField('category-specify-container', false)">
+                            <input type="radio" name="student_category" value="Third Year Student (Bachelor)" class="hidden radio-custom" onchange="updateProgress(); toggleSpecifyField('category-specify-container', false); clearError(this)">
                             <div>Third Year Student (Bachelor)</div>
                         </label>
                         <label class="cursor-pointer option-hover p-2 rounded-lg border-2 border-gray-200 transition-all">
-                            <input type="radio" name="student_category" value="First Year Student (Diploma)" class="hidden radio-custom" onchange="updateProgress(); toggleSpecifyField('category-specify-container', false)">
+                            <input type="radio" name="student_category" value="First Year Student (Diploma)" class="hidden radio-custom" onchange="updateProgress(); toggleSpecifyField('category-specify-container', false); clearError(this)">
                             <div>First Year Student (Diploma)</div>
                         </label>
                         <label class="cursor-pointer option-hover p-2 rounded-lg border-2 border-gray-200 transition-all">
-                            <input type="radio" name="student_category" value="Second Year Student (Diploma)" class="hidden radio-custom" onchange="updateProgress(); toggleSpecifyField('category-specify-container', false)">
+                            <input type="radio" name="student_category" value="Second Year Student (Diploma)" class="hidden radio-custom" onchange="updateProgress(); toggleSpecifyField('category-specify-container', false); clearError(this)">
                             <div>Second Year Student (Diploma)</div>
                         </label>
                         <label class="cursor-pointer option-hover p-2 rounded-lg border-2 border-gray-200 transition-all">
-                            <input type="radio" name="student_category" value="First Year Student (Certificate)" class="hidden radio-custom" onchange="updateProgress(); toggleSpecifyField('category-specify-container', false)">
+                            <input type="radio" name="student_category" value="First Year Student (Certificate)" class="hidden radio-custom" onchange="updateProgress(); toggleSpecifyField('category-specify-container', false); clearError(this)">
                             <div>First Year Student (Certificate)</div>
                         </label>
                         <label class="cursor-pointer option-hover p-2 rounded-lg border-2 border-gray-200 transition-all">
-                            <input type="radio" name="student_category" value="Post-graduate Student (First Year)" class="hidden radio-custom" onchange="updateProgress(); toggleSpecifyField('category-specify-container', false)">
+                            <input type="radio" name="student_category" value="Post-graduate Student (First Year)" class="hidden radio-custom" onchange="updateProgress(); toggleSpecifyField('category-specify-container', false); clearError(this)">
                             <div>Post-graduate Student (First Year)</div>
                         </label>
                         <label class="cursor-pointer option-hover p-2 rounded-lg border-2 border-gray-200 transition-all">
-                            <input type="radio" name="student_category" value="Post-graduate Student (Second Year)" class="hidden radio-custom" onchange="updateProgress(); toggleSpecifyField('category-specify-container', false)">
+                            <input type="radio" name="student_category" value="Post-graduate Student (Second Year)" class="hidden radio-custom" onchange="updateProgress(); toggleSpecifyField('category-specify-container', false); clearError(this)">
                             <div>Post-graduate Student (Second Year)</div>
                         </label>
                         <label class="cursor-pointer option-hover p-2 rounded-lg border-2 border-gray-200 transition-all md:col-span-2">
-                            <input type="radio" name="student_category" value="Others" class="hidden radio-custom" onchange="updateProgress(); toggleSpecifyField('category-specify-container', true)">
+                            <input type="radio" name="student_category" value="Others" class="hidden radio-custom" onchange="updateProgress(); toggleSpecifyField('category-specify-container', true); clearError(this)">
                             <div class="flex items-center">
                                 <i class="fas fa-edit text-indigo-500 mr-2"></i>
                                 <span>Others (Please specify below)</span>
@@ -351,25 +408,26 @@
                             <input type="text" name="student_category_specify" class="specify-field text-sm" placeholder="Enter your specific category..." oninput="updateProgress()">
                         </div>
                     </div>
+                    <p class="error-message" id="student_category-error">Please select your student category.</p>
                 </div>
 
                 <!-- Q4: Regional Centre - Enhanced Specify -->
-                <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100">
+                <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100" data-required="true">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">4</span>
-                        Please indicate your Regional Centre affiliation
+                        Please indicate your Regional Centre affiliation <span class="text-red-500 ml-1">*</span>
                     </h3>
                     <div class="space-y-2 text-sm">
                         <label class="cursor-pointer option-hover p-3 rounded-lg border-2 border-gray-200 transition-all block">
-                            <input type="radio" name="regional_centre" value="Kinondoni Regional Centre" class="hidden radio-custom" onchange="updateProgress(); toggleSpecifyField('centre-specify-container', false)">
+                            <input type="radio" name="regional_centre" value="Kinondoni Regional Centre" class="hidden radio-custom" onchange="updateProgress(); toggleSpecifyField('centre-specify-container', false); clearError(this)">
                             <div>Kinondoni Regional Centre</div>
                         </label>
                         <label class="cursor-pointer option-hover p-3 rounded-lg border-2 border-gray-200 transition-all block">
-                            <input type="radio" name="regional_centre" value="Ilala Regional Centre" class="hidden radio-custom" onchange="updateProgress(); toggleSpecifyField('centre-specify-container', false)">
+                            <input type="radio" name="regional_centre" value="Ilala Regional Centre" class="hidden radio-custom" onchange="updateProgress(); toggleSpecifyField('centre-specify-container', false); clearError(this)">
                             <div>Ilala Regional Centre</div>
                         </label>
                         <label class="cursor-pointer option-hover p-3 rounded-lg border-2 border-gray-200 transition-all block">
-                            <input type="radio" name="regional_centre" value="Others" class="hidden radio-custom" onchange="updateProgress(); toggleSpecifyField('centre-specify-container', true)">
+                            <input type="radio" name="regional_centre" value="Others" class="hidden radio-custom" onchange="updateProgress(); toggleSpecifyField('centre-specify-container', true); clearError(this)">
                             <div class="flex items-center">
                                 <i class="fas fa-map-marker-alt text-indigo-500 mr-2"></i>
                                 <span>Other Regional Centre (Please specify below)</span>
@@ -383,58 +441,61 @@
                             <input type="text" name="regional_centre_specify" class="specify-field text-sm" placeholder="Enter your regional centre name..." oninput="updateProgress()">
                         </div>
                     </div>
+                    <p class="error-message" id="regional_centre-error">Please select your regional centre.</p>
                 </div>
 
                 <!-- Q5: Faculty Affiliation -->
-                <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100">
+                <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100" data-required="true">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">5</span>
-                        What is your faculty affiliation?
+                        What is your faculty affiliation? <span class="text-red-500 ml-1">*</span>
                     </h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
                         <label class="cursor-pointer option-hover p-3 rounded-lg border-2 border-gray-200 transition-all">
-                            <input type="radio" name="faculty_affiliation" value="Faculty of Science" class="hidden radio-custom" onchange="updateProgress()">
+                            <input type="radio" name="faculty_affiliation" value="Faculty of Science" class="hidden radio-custom" onchange="updateProgress(); clearError(this)">
                             <div class="flex items-center">
                                 <i class="fas fa-flask text-blue-500 mr-2"></i>
                                 <span>Faculty of Science</span>
                             </div>
                         </label>
                         <label class="cursor-pointer option-hover p-3 rounded-lg border-2 border-gray-200 transition-all">
-                            <input type="radio" name="faculty_affiliation" value="Faculty of Business Management" class="hidden radio-custom" onchange="updateProgress()">
+                            <input type="radio" name="faculty_affiliation" value="Faculty of Business Management" class="hidden radio-custom" onchange="updateProgress(); clearError(this)">
                             <div class="flex items-center">
                                 <i class="fas fa-briefcase text-green-500 mr-2"></i>
                                 <span>Faculty of Business Management</span>
                             </div>
                         </label>
                         <label class="cursor-pointer option-hover p-3 rounded-lg border-2 border-gray-200 transition-all">
-                            <input type="radio" name="faculty_affiliation" value="Faculty of Arts and Social Sciences" class="hidden radio-custom" onchange="updateProgress()">
+                            <input type="radio" name="faculty_affiliation" value="Faculty of Arts and Social Sciences" class="hidden radio-custom" onchange="updateProgress(); clearError(this)">
                             <div class="flex items-center">
                                 <i class="fas fa-book text-purple-500 mr-2"></i>
                                 <span>Faculty of Arts and Social Sciences</span>
                             </div>
                         </label>
                         <label class="cursor-pointer option-hover p-3 rounded-lg border-2 border-gray-200 transition-all">
-                            <input type="radio" name="faculty_affiliation" value="Faculty of Education" class="hidden radio-custom" onchange="updateProgress()">
+                            <input type="radio" name="faculty_affiliation" value="Faculty of Education" class="hidden radio-custom" onchange="updateProgress(); clearError(this)">
                             <div class="flex items-center">
                                 <i class="fas fa-chalkboard-teacher text-orange-500 mr-2"></i>
                                 <span>Faculty of Education</span>
                             </div>
                         </label>
                     </div>
+                    <p class="error-message" id="faculty_affiliation-error">Please select your faculty.</p>
                 </div>
 
                 <!-- Q6: Degree Programme -->
-                <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100">
+                <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100" data-required="true">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">6</span>
-                        Indicate your degree programme
+                        Indicate your degree programme <span class="text-red-500 ml-1">*</span>
                     </h3>
                     <div class="bg-gray-50 p-3 rounded-lg border-2 border-dashed border-gray-300">
-                        <input type="text" name="degree_programme" class="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-indigo-500 focus:outline-none text-sm bg-white" placeholder="Type your degree programme here..." oninput="updateProgress()">
+                        <input type="text" name="degree_programme" class="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-indigo-500 focus:outline-none text-sm bg-white" placeholder="Type your degree programme here..." oninput="updateProgress(); clearError(this)" required>
                     </div>
                     <p class="text-xs text-gray-500 mt-2 italic">
                         <i class="fas fa-info-circle mr-1"></i> Please specify the name of your degree programme (e.g., Bachelor of Science in Computer Science, Diploma in Business Administration, etc.)
                     </p>
+                    <p class="error-message" id="degree_programme-error">Please enter your degree programme.</p>
                 </div>
             </div>
 
@@ -528,7 +589,7 @@
                             <input type="checkbox" name="learned_oer" value="OER Repositories" class="hidden checkbox-custom" onchange="updateProgress()">
                             <div>OER Repositories (Eg. MERLOT)</div>
                         </label>
-                        <label class="cursor-pointer option-hover p-2 rounded-lg border-2 border-gray-200 transition-all bg-white md:col-span-2">
+                        <label class="cursor-pointer option-hover p-2 rounded-lg border-2 border-gray-200 transition-all md:col-span-2 bg-white">
                             <input type="checkbox" name="learned_oer" value="Others" class="hidden checkbox-custom" onchange="toggleSpecifyCheckbox(this, 'learned-specify-container')">
                             <div class="flex items-center">
                                 <i class="fas fa-plus-circle text-indigo-500 mr-2"></i>
@@ -1744,7 +1805,7 @@
                 </div>
 
                 <button onclick="submitForm()" class="bg-indigo-600 text-white px-8 py-3 rounded-full font-bold text-base hover:bg-indigo-700 transition-all transform hover:scale-105 shadow-lg">
-                    Submit Questionnaire
+                    <i class="fas fa-paper-plane mr-2"></i>Submit Questionnaire
                 </button>
                 
                 <p class="mt-3 text-xs text-gray-500">
@@ -1768,9 +1829,14 @@
                     <p class="text-xs text-gray-600 mb-1"><strong>Reference ID:</strong> <span id="ref-id" class="font-mono text-indigo-600"></span></p>
                     <p class="text-xs text-gray-600">Please save this reference number for your records.</p>
                 </div>
-                <button onclick="location.reload()" class="bg-indigo-600 text-white px-6 py-2 rounded-full font-semibold hover:bg-indigo-700 transition-all text-sm">
-                    Submit Another Response
-                </button>
+                <div class="flex justify-center gap-3">
+                    <button onclick="exportResponse()" class="px-4 py-2 bg-indigo-100 text-indigo-700 rounded-lg hover:bg-indigo-200 transition-all text-sm">
+                        <i class="fas fa-download mr-2"></i>Download Response
+                    </button>
+                    <button onclick="location.reload()" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-all text-sm">
+                        <i class="fas fa-redo mr-2"></i>Submit Another Response
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -1781,18 +1847,21 @@
         function checkConsent() {
             const consent = document.getElementById('consent-check').checked;
             const sections = document.querySelectorAll('.section-hidden');
+            const errorMsg = document.getElementById('consent-error');
             
             if (consent) {
                 sections.forEach(section => {
                     section.classList.remove('section-hidden');
                     section.classList.add('fade-in');
                 });
+                errorMsg.classList.remove('show');
                 updateProgress();
             } else {
                 sections.forEach(section => {
                     section.classList.add('section-hidden');
                     section.classList.remove('fade-in');
                 });
+                errorMsg.classList.add('show');
             }
         }
 
@@ -1964,6 +2033,9 @@
             
             document.getElementById('progress-bar').style.width = progress + '%';
             document.getElementById('progress-text').textContent = progress + '% Complete';
+            
+            // Save progress to localStorage
+            saveProgress();
         }
 
         // Scroll to section
@@ -1974,24 +2046,91 @@
             }
         }
 
+        // Validation functions
+        function validateForm() {
+            let isValid = true;
+            const requiredGroups = ['gender', 'age', 'student_category', 'regional_centre', 'faculty_affiliation'];
+            
+            requiredGroups.forEach(group => {
+                const checked = document.querySelector(`input[name="${group}"]:checked`);
+                if (!checked) {
+                    showError(group);
+                    isValid = false;
+                }
+            });
+            
+            // Check degree programme
+            const degreeProgramme = document.querySelector('input[name="degree_programme"]');
+            if (!degreeProgramme.value.trim()) {
+                showError('degree_programme');
+                isValid = false;
+            }
+            
+            return isValid;
+        }
+
+        function showError(fieldName) {
+            const errorElement = document.getElementById(`${fieldName}-error`);
+            if (errorElement) {
+                errorElement.classList.add('show');
+            }
+        }
+
+        function clearError(input) {
+            const fieldName = input.name;
+            const errorElement = document.getElementById(`${fieldName}-error`);
+            if (errorElement) {
+                errorElement.classList.remove('show');
+            }
+        }
+
         // Submit form
         function submitForm() {
-            // Generate reference ID
-            const refId = 'OER-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5).toUpperCase();
-            document.getElementById('ref-id').textContent = refId;
-            
-            // Hide form, show thank you
-            document.getElementById('questionnaire-form').style.display = 'none';
-            document.getElementById('submit-section').style.display = 'none';
-            document.querySelector('.sticky-nav').style.display = 'none';
-            document.getElementById('thank-you').classList.remove('hidden');
-            
-            // Scroll to top
-            window.scrollTo(0, 0);
-            
-            // Collect form data
-            const formData = new FormData(document.getElementById('questionnaire-form'));
+            if (!validateForm()) {
+                alert('Please complete all required fields (marked with *) before submitting.');
+                // Scroll to first error
+                const firstError = document.querySelector('.error-message.show');
+                if (firstError) {
+                    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+                return;
+            }
+
+            // Show loading state
+            const submitBtn = document.querySelector('#submit-section button');
+            submitBtn.innerHTML = '<i class="fas fa-spinner spinner mr-2"></i>Submitting...';
+            submitBtn.classList.add('loading');
+
+            // Simulate submission delay
+            setTimeout(() => {
+                // Generate reference ID
+                const refId = 'OER-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5).toUpperCase();
+                document.getElementById('ref-id').textContent = refId;
+                
+                // Store final response
+                const formData = collectFormData();
+                localStorage.setItem('oer_final_response_' + refId, JSON.stringify(formData));
+                
+                // Hide form, show thank you
+                document.getElementById('questionnaire-form').style.display = 'none';
+                document.getElementById('submit-section').style.display = 'none';
+                document.querySelector('.sticky-nav').style.display = 'none';
+                document.getElementById('thank-you').classList.remove('hidden');
+                
+                // Clear draft
+                localStorage.removeItem('oer_questionnaire_draft');
+                
+                // Scroll to top
+                window.scrollTo(0, 0);
+            }, 1500);
+        }
+
+        // Collect form data
+        function collectFormData() {
+            const form = document.getElementById('questionnaire-form');
+            const formData = new FormData(form);
             const data = {};
+            
             formData.forEach((value, key) => {
                 if (data[key]) {
                     if (!Array.isArray(data[key])) {
@@ -2002,17 +2141,142 @@
                     data[key] = value;
                 }
             });
-            console.log('Form data:', data);
+            
+            data.timestamp = new Date().toISOString();
+            return data;
         }
 
-        // Auto-save functionality (simulated)
+        // Export response as JSON
+        function exportResponse() {
+            const data = collectFormData();
+            const refId = document.getElementById('ref-id').textContent;
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `OER_Response_${refId}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Save progress to localStorage
+        function saveProgress() {
+            const data = collectFormData();
+            localStorage.setItem('oer_questionnaire_draft', JSON.stringify(data));
+        }
+
+        // Load progress from localStorage
+        function loadDraft() {
+            const saved = localStorage.getItem('oer_questionnaire_draft');
+            if (saved) {
+                if (confirm('Load your previously saved progress?')) {
+                    const data = JSON.parse(saved);
+                    restoreFormData(data);
+                    updateProgress();
+                    alert('Progress loaded successfully!');
+                }
+            } else {
+                alert('No saved progress found.');
+            }
+        }
+
+        // Export draft manually
+        function exportDraft() {
+            const data = collectFormData();
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `OER_Draft_${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Restore form data
+        function restoreFormData(data) {
+            Object.keys(data).forEach(key => {
+                if (key === 'timestamp') return;
+                
+                const value = data[key];
+                const inputs = document.querySelectorAll(`[name="${key}"]`);
+                
+                if (Array.isArray(value)) {
+                    // Checkbox group
+                    inputs.forEach(input => {
+                        if (value.includes(input.value)) {
+                            input.checked = true;
+                            // Trigger change for specify fields
+                            if (input.onchange) input.onchange();
+                        }
+                    });
+                } else {
+                    // Radio or text
+                    inputs.forEach(input => {
+                        if (input.type === 'radio' && input.value === value) {
+                            input.checked = true;
+                            if (input.onchange) input.onchange();
+                        } else if (input.type === 'text' || input.type === 'textarea') {
+                            input.value = value;
+                        } else if (input.type === 'checkbox' && input.value === value) {
+                            input.checked = true;
+                            if (input.onchange) input.onchange();
+                        }
+                    });
+                }
+            });
+            
+            // Re-check conditional displays
+            toggleConditionalQuestions();
+            const internetAccess = document.querySelector('input[name="internet_access"]:checked');
+            if (internetAccess) toggleInternetQuestions(internetAccess.value === 'Yes');
+            const usedOER = document.querySelector('input[name="used_oer"]:checked');
+            if (usedOER) toggleOERUsage(usedOER.value === 'Yes');
+        }
+
+        // Auto-save functionality
         let autoSaveTimer;
         document.addEventListener('input', () => {
             clearTimeout(autoSaveTimer);
             autoSaveTimer = setTimeout(() => {
-                console.log('Auto-saving...');
+                saveProgress();
+                console.log('Auto-saved at', new Date().toLocaleTimeString());
             }, 3000);
+        });
+
+        // Check for saved progress on load
+        window.addEventListener('load', () => {
+            const saved = localStorage.getItem('oer_questionnaire_draft');
+            if (saved) {
+                const data = JSON.parse(saved);
+                const savedDate = new Date(data.timestamp);
+                const now = new Date();
+                const hoursSinceSave = (now - savedDate) / (1000 * 60 * 60);
+                
+                if (hoursSinceSave < 24) {
+                    setTimeout(() => {
+                        if (confirm(`You have unsaved progress from ${savedDate.toLocaleString()}. Would you like to restore it?`)) {
+                            document.getElementById('consent-check').checked = true;
+                            checkConsent();
+                            restoreFormData(data);
+                            updateProgress();
+                        }
+                    }, 1000);
+                }
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === 's') {
+                e.preventDefault();
+                exportDraft();
+            }
         });
     </script>
 </body>
 </html>
+
