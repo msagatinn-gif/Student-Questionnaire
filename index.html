@@ -104,6 +104,20 @@
             padding: 0.75rem;
             margin-top: 0.5rem;
         }
+        .specify-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.5rem;
+            background-color: #dbeafe;
+            color: #1d4ed8;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+        .specify-badge i {
+            margin-right: 0.25rem;
+        }
     </style>
 </head>
 <body class="pb-20">
@@ -625,7 +639,13 @@
                                     <td class="p-2 border border-gray-200 text-center"><input type="checkbox" name="loc_office_mobile" class="w-4 h-4 rounded text-indigo-600" onchange="updateProgress()"></td>
                                 </tr>
                                 <tr class="hover:bg-gray-50">
-                                    <td class="p-2 border border-gray-200">Other University Premises <span class="text-blue-600 font-semibold">(Specify below)</span></td>
+                                    <td class="p-2 border border-gray-200 font-semibold text-indigo-700">
+                                        <i class="fas fa-university mr-1 text-indigo-500"></i>
+                                        Other University Premises 
+                                        <span class="specify-badge">
+                                            <i class="fas fa-pen"></i>Specify below
+                                        </span>
+                                    </td>
                                     <td class="p-2 border border-gray-200 text-center"><input type="checkbox" name="loc_other_uni_wifi" class="w-4 h-4 rounded text-indigo-600" onchange="toggleSpecifyCheckbox(this, 'other-uni-container'); updateProgress()"></td>
                                     <td class="p-2 border border-gray-200 text-center"><input type="checkbox" name="loc_other_uni_lan" class="w-4 h-4 rounded text-indigo-600" onchange="toggleSpecifyCheckbox(this, 'other-uni-container'); updateProgress()"></td>
                                     <td class="p-2 border border-gray-200 text-center"><input type="checkbox" name="loc_other_uni_mobile" class="w-4 h-4 rounded text-indigo-600" onchange="toggleSpecifyCheckbox(this, 'other-uni-container'); updateProgress()"></td>
@@ -643,7 +663,13 @@
                                     <td class="p-2 border border-gray-200 text-center"><input type="checkbox" name="loc_cafe_mobile" class="w-4 h-4 rounded text-indigo-600" onchange="updateProgress()"></td>
                                 </tr>
                                 <tr class="hover:bg-gray-50">
-                                    <td class="p-2 border border-gray-200">Others <span class="text-blue-600 font-semibold">(Specify below)</span></td>
+                                    <td class="p-2 border border-gray-200 font-semibold text-indigo-700">
+                                        <i class="fas fa-map-marker-alt mr-1 text-indigo-500"></i>
+                                        Others 
+                                        <span class="specify-badge">
+                                            <i class="fas fa-pen"></i>Specify below
+                                        </span>
+                                    </td>
                                     <td class="p-2 border border-gray-200 text-center"><input type="checkbox" name="loc_others_wifi" class="w-4 h-4 rounded text-indigo-600" onchange="toggleSpecifyCheckbox(this, 'other-loc-container'); updateProgress()"></td>
                                     <td class="p-2 border border-gray-200 text-center"><input type="checkbox" name="loc_others_lan" class="w-4 h-4 rounded text-indigo-600" onchange="toggleSpecifyCheckbox(this, 'other-loc-container'); updateProgress()"></td>
                                     <td class="p-2 border border-gray-200 text-center"><input type="checkbox" name="loc_others_mobile" class="w-4 h-4 rounded text-indigo-600" onchange="toggleSpecifyCheckbox(this, 'other-loc-container'); updateProgress()"></td>
@@ -651,17 +677,28 @@
                             </tbody>
                         </table>
                     </div>
-                    <!-- Active Specify Fields -->
+                    
+                    <!-- Active Specify Field 1: Other University Premises -->
                     <div id="other-uni-container" class="specify-input">
-                        <div class="specify-container mt-2">
-                            <label class="block text-xs font-semibold text-blue-800 mb-1">Specify other university premises:</label>
-                            <input type="text" name="other_uni_specify" class="specify-field text-sm" placeholder="Enter specific location..." oninput="updateProgress()">
+                        <div class="specify-container mt-3">
+                            <label class="block text-xs font-semibold text-blue-800 mb-1 flex items-center">
+                                <i class="fas fa-university mr-2"></i>
+                                Specify other university premises:
+                            </label>
+                            <input type="text" name="other_uni_specify" class="specify-field text-sm" placeholder="Enter specific location (e.g., Science Building, Student Center)..." oninput="updateProgress()">
+                            <p class="text-xs text-blue-600 mt-1 italic">Required when selecting "Other University Premises"</p>
                         </div>
                     </div>
+                    
+                    <!-- Active Specify Field 2: Other Locations -->
                     <div id="other-loc-container" class="specify-input">
-                        <div class="specify-container mt-2">
-                            <label class="block text-xs font-semibold text-blue-800 mb-1">Specify other locations:</label>
-                            <input type="text" name="other_location_specify" class="specify-field text-sm" placeholder="Enter other locations..." oninput="updateProgress()">
+                        <div class="specify-container mt-3">
+                            <label class="block text-xs font-semibold text-blue-800 mb-1 flex items-center">
+                                <i class="fas fa-map-marker-alt mr-2"></i>
+                                Specify other locations:
+                            </label>
+                            <input type="text" name="other_location_specify" class="specify-field text-sm" placeholder="Enter other locations (e.g., Friend's House, Public Library)..." oninput="updateProgress()">
+                            <p class="text-xs text-blue-600 mt-1 italic">Required when selecting "Others"</p>
                         </div>
                     </div>
                 </div>
@@ -1946,4 +1983,3 @@
     </script>
 </body>
 </html>
-
