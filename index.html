@@ -104,7 +104,6 @@
             padding: 0.75rem;
             margin-top: 0.5rem;
         }
-        /* Enhanced specify fields for Question 11 */
         .q11-specify-container {
             background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
             border: 2px solid #f97316;
@@ -136,7 +135,6 @@
             align-items: center;
             gap: 0.5rem;
         }
-        /* Print styles */
         @media print {
             body {
                 background: white;
@@ -153,7 +151,6 @@
                 break-inside: avoid;
             }
         }
-        /* Validation styles */
         .error-field {
             border-color: #ef4444 !important;
             background-color: #fef2f2 !important;
@@ -167,7 +164,6 @@
         .error-message.show {
             display: block;
         }
-        /* Loading state */
         .loading {
             opacity: 0.7;
             pointer-events: none;
@@ -179,7 +175,6 @@
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
-        /* Already submitted message */
         .already-submitted {
             background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
             border: 2px solid #f59e0b;
@@ -390,7 +385,7 @@
                     <p class="error-message" id="age-error">Please select your age group.</p>
                 </div>
 
-                <!-- Q3: Student Category - Enhanced Specify -->
+                <!-- Q3: Student Category -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100" data-required="true">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">3</span>
@@ -437,7 +432,6 @@
                             </div>
                         </label>
                     </div>
-                    <!-- Active Specify Field -->
                     <div id="category-specify-container" class="specify-input">
                         <div class="specify-container">
                             <label class="block text-xs font-semibold text-blue-800 mb-1">Please specify your student category:</label>
@@ -447,7 +441,7 @@
                     <p class="error-message" id="student_category-error">Please select your student category.</p>
                 </div>
 
-                <!-- Q4: Regional Centre - Enhanced Specify -->
+                <!-- Q4: Regional Centre -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100" data-required="true">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">4</span>
@@ -470,7 +464,6 @@
                             </div>
                         </label>
                     </div>
-                    <!-- Active Specify Field -->
                     <div id="centre-specify-container" class="specify-input">
                         <div class="specify-container">
                             <label class="block text-xs font-semibold text-blue-800 mb-1">Please specify your regional centre:</label>
@@ -585,7 +578,7 @@
                     </div>
                 </div>
 
-                <!-- Q8: How Learned About OER (Conditional) - Enhanced Specify -->
+                <!-- Q8: How Learned About OER (Conditional) -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100 conditional-box" id="q8-container" style="display:none;">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">8</span>
@@ -633,7 +626,6 @@
                             </div>
                         </label>
                     </div>
-                    <!-- Active Specify Field -->
                     <div id="learned-specify-container" class="specify-input">
                         <div class="specify-container">
                             <label class="block text-xs font-semibold text-blue-800 mb-1">Please specify how you learned about OER:</label>
@@ -724,7 +716,7 @@
                     </p>
                 </div>
 
-                <!-- Q11: Internet Location (Conditional) - ENHANCED WITH EDITABLE SPECIFY FIELDS -->
+                <!-- Q11: Internet Location (Conditional) -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100 conditional-internet" style="display:none;">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">11</span>
@@ -753,18 +745,13 @@
                                     <td class="p-2 border border-gray-200 text-center"><input type="checkbox" name="loc_office_lan" class="w-4 h-4 rounded text-indigo-600" onchange="updateProgress()"></td>
                                     <td class="p-2 border border-gray-200 text-center"><input type="checkbox" name="loc_office_mobile" class="w-4 h-4 rounded text-indigo-600" onchange="updateProgress()"></td>
                                 </tr>
-                                <!-- ENHANCED: Other University Premises with editable input -->
                                 <tr class="hover:bg-gray-50 bg-orange-50">
                                     <td class="p-2 border border-gray-200">
                                         <div class="font-semibold text-orange-800 mb-1">
                                             <i class="fas fa-university mr-1 text-orange-600"></i>
                                             Other University Premises
                                         </div>
-                                        <input type="text" 
-                                               name="other_uni_premises_name" 
-                                               class="w-full p-1.5 text-xs border-2 border-orange-300 rounded focus:border-orange-500 focus:outline-none bg-white" 
-                                               placeholder="Specify location here..." 
-                                               oninput="updateProgress()">
+                                        <input type="text" name="other_uni_premises_name" class="w-full p-1.5 text-xs border-2 border-orange-300 rounded focus:border-orange-500 focus:outline-none bg-white" placeholder="Specify location here..." oninput="updateProgress()">
                                     </td>
                                     <td class="p-2 border border-gray-200 text-center"><input type="checkbox" name="loc_other_uni_wifi" class="w-4 h-4 rounded text-indigo-600" onchange="updateProgress()"></td>
                                     <td class="p-2 border border-gray-200 text-center"><input type="checkbox" name="loc_other_uni_lan" class="w-4 h-4 rounded text-indigo-600" onchange="updateProgress()"></td>
@@ -782,18 +769,13 @@
                                     <td class="p-2 border border-gray-200 text-center"><input type="checkbox" name="loc_cafe_lan" class="w-4 h-4 rounded text-indigo-600" onchange="updateProgress()"></td>
                                     <td class="p-2 border border-gray-200 text-center"><input type="checkbox" name="loc_cafe_mobile" class="w-4 h-4 rounded text-indigo-600" onchange="updateProgress()"></td>
                                 </tr>
-                                <!-- ENHANCED: Others with editable input -->
                                 <tr class="hover:bg-gray-50 bg-orange-50">
                                     <td class="p-2 border border-gray-200">
                                         <div class="font-semibold text-orange-800 mb-1">
                                             <i class="fas fa-map-marked-alt mr-1 text-orange-600"></i>
                                             Others (Specify below)
                                         </div>
-                                        <input type="text" 
-                                               name="other_location_name" 
-                                               class="w-full p-1.5 text-xs border-2 border-orange-300 rounded focus:border-orange-500 focus:outline-none bg-white" 
-                                               placeholder="Specify other location..." 
-                                               oninput="updateProgress()">
+                                        <input type="text" name="other_location_name" class="w-full p-1.5 text-xs border-2 border-orange-300 rounded focus:border-orange-500 focus:outline-none bg-white" placeholder="Specify other location..." oninput="updateProgress()">
                                     </td>
                                     <td class="p-2 border border-gray-200 text-center"><input type="checkbox" name="loc_others_wifi" class="w-4 h-4 rounded text-indigo-600" onchange="updateProgress()"></td>
                                     <td class="p-2 border border-gray-200 text-center"><input type="checkbox" name="loc_others_lan" class="w-4 h-4 rounded text-indigo-600" onchange="updateProgress()"></td>
@@ -807,7 +789,7 @@
                     </p>
                 </div>
 
-                <!-- Q12: Devices - Enhanced Specify -->
+                <!-- Q12: Devices -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100 conditional-internet" style="display:none;">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">12</span>
@@ -838,7 +820,6 @@
                             </div>
                         </label>
                     </div>
-                    <!-- Active Specify Field -->
                     <div id="devices-specify-container" class="specify-input">
                         <div class="specify-container">
                             <label class="block text-xs font-semibold text-blue-800 mb-1">Please specify other devices:</label>
@@ -910,7 +891,7 @@
                     </p>
                 </div>
 
-                <!-- Q15: OER Repositories Usage (Conditional - Yes only) - Enhanced Specify -->
+                <!-- Q15: OER Repositories Usage -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100 conditional-oer-yes" style="display:none;">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">15</span>
@@ -1037,7 +1018,6 @@
                             </tbody>
                         </table>
                     </div>
-                    <!-- Enhanced Other Repositories Specify -->
                     <div class="mt-3">
                         <label class="block text-xs font-medium text-gray-700 mb-1 flex items-center">
                             <i class="fas fa-plus-circle text-indigo-500 mr-1"></i>
@@ -1050,7 +1030,7 @@
                     </div>
                 </div>
 
-                <!-- Q16: Types of OER Materials - Enhanced Specify -->
+                <!-- Q16: Types of OER Materials -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100 conditional-oer-yes" style="display:none;">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">16</span>
@@ -1113,7 +1093,6 @@
                             </div>
                         </label>
                     </div>
-                    <!-- Active Specify Field -->
                     <div id="oer-types-specify-container" class="specify-input">
                         <div class="specify-container">
                             <label class="block text-xs font-semibold text-blue-800 mb-1">Please specify other OER material types:</label>
@@ -1122,7 +1101,7 @@
                     </div>
                 </div>
 
-                <!-- Q17: Preferred Format - Enhanced Specify -->
+                <!-- Q17: Preferred Format -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100 conditional-oer-yes" style="display:none;">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">17</span>
@@ -1149,7 +1128,6 @@
                             </div>
                         </label>
                     </div>
-                    <!-- Active Specify Field -->
                     <div id="format-specify-container" class="specify-input">
                         <div class="specify-container">
                             <label class="block text-xs font-semibold text-blue-800 mb-1">Please specify your preferred format:</label>
@@ -1182,7 +1160,7 @@
                     </div>
                 </div>
 
-                <!-- Q19: Purposes - Enhanced Specify -->
+                <!-- Q19: Purposes -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100 conditional-oer-yes" style="display:none;">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">19</span>
@@ -1229,7 +1207,6 @@
                             </div>
                         </label>
                     </div>
-                    <!-- Active Specify Field -->
                     <div id="purposes-specify-container" class="specify-input">
                         <div class="specify-container">
                             <label class="block text-xs font-semibold text-blue-800 mb-1">Please specify other purposes:</label>
@@ -1238,7 +1215,7 @@
                     </div>
                 </div>
 
-                <!-- Q20: Search Tools - Enhanced Specify -->
+                <!-- Q20: Search Tools -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100 conditional-oer-yes" style="display:none;">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">20</span>
@@ -1277,7 +1254,6 @@
                             </div>
                         </label>
                     </div>
-                    <!-- Active Specify Field -->
                     <div id="search-specify-container" class="specify-input">
                         <div class="specify-container">
                             <label class="block text-xs font-semibold text-blue-800 mb-1">Please specify other search tools:</label>
@@ -1286,7 +1262,7 @@
                     </div>
                 </div>
 
-                <!-- Q21: Training - Enhanced with active fields -->
+                <!-- Q21: Training -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100 conditional-oer-yes" style="display:none;">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">21</span>
@@ -1318,7 +1294,7 @@
                     </div>
                 </div>
 
-                <!-- Q22: Search Techniques - Enhanced Specify -->
+                <!-- Q22: Search Techniques -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100 conditional-oer-yes" style="display:none;">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">22</span>
@@ -1353,7 +1329,6 @@
                             </div>
                         </label>
                     </div>
-                    <!-- Active Specify Field -->
                     <div id="techniques-specify-container" class="specify-input">
                         <div class="specify-container">
                             <label class="block text-xs font-semibold text-blue-800 mb-1">Please specify other search techniques:</label>
@@ -1362,7 +1337,7 @@
                     </div>
                 </div>
 
-                <!-- Q23: Evaluation - Enhanced Specify -->
+                <!-- Q23: Evaluation -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100 conditional-oer-yes" style="display:none;">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">23</span>
@@ -1409,7 +1384,6 @@
                             </div>
                         </label>
                     </div>
-                    <!-- Active Specify Field -->
                     <div id="evaluation-specify-container" class="specify-input">
                         <div class="specify-container">
                             <label class="block text-xs font-semibold text-blue-800 mb-1">Please specify other evaluation methods:</label>
@@ -1644,7 +1618,7 @@
                     </div>
                 </div>
 
-                <!-- Q27: Ability to Find OER - Enhanced Specify -->
+                <!-- Q27: Ability to Find OER -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100 conditional-oer-yes" style="display:none;">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">27</span>
@@ -1675,7 +1649,6 @@
                             </div>
                         </label>
                     </div>
-                    <!-- Active Specify Field -->
                     <div id="ability-specify-container" class="specify-input">
                         <div class="specify-container">
                             <label class="block text-xs font-semibold text-blue-800 mb-1">Please specify:</label>
@@ -1695,7 +1668,7 @@
                     </div>
                 </div>
 
-                <!-- Q28: Problems - Enhanced Specify -->
+                <!-- Q28: Problems -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">28</span>
@@ -1770,7 +1743,6 @@
                             </div>
                         </label>
                     </div>
-                    <!-- Active Specify Field -->
                     <div id="challenges-specify-container" class="specify-input">
                         <div class="specify-container">
                             <label class="block text-xs font-semibold text-blue-800 mb-1">Please specify other challenges:</label>
@@ -2030,165 +2002,206 @@
             }
         }
 
-        // Toggle conditional questions based on Q7
+        // Toggle conditional questions based on OER awareness
         function toggleConditionalQuestions() {
-            const q7 = document.querySelector('input[name="oer_awareness"]:checked');
-            const q8 = document.getElementById('q8-container');
+            const awareness = document.querySelector('input[name="oer_awareness"]:checked');
+            const q8Container = document.getElementById('q8-container');
             
-            if (q7 && (q7.value === 'Aware' || q7.value === 'Very aware')) {
-                q8.style.display = 'block';
+            if (awareness && (awareness.value === 'Aware' || awareness.value === 'Very aware')) {
+                q8Container.style.display = 'block';
             } else {
-                q8.style.display = 'none';
-                const checkboxes = q8.querySelectorAll('input[type="checkbox"]');
-                checkboxes.forEach(cb => {
-                    cb.checked = false;
-                    if (cb.onchange) cb.onchange();
+                q8Container.style.display = 'none';
+                // Clear Q8 selections when hidden
+                const q8Inputs = q8Container.querySelectorAll('input');
+                q8Inputs.forEach(input => {
+                    if (input.type === 'checkbox' || input.type === 'radio') {
+                        input.checked = false;
+                    } else {
+                        input.value = '';
+                    }
                 });
             }
+            updateProgress();
         }
 
-        // Toggle internet questions based on Q10
-        function toggleInternetQuestions(show) {
-            const questions = document.querySelectorAll('.conditional-internet');
-            questions.forEach(q => {
-                q.style.display = show ? 'block' : 'none';
-            });
-            if (!show) {
-                questions.forEach(q => {
-                    const checkboxes = q.querySelectorAll('input[type="checkbox"]');
-                    checkboxes.forEach(cb => {
-                        cb.checked = false;
+        // Toggle internet-related questions
+        function toggleInternetQuestions(hasInternet) {
+            const internetQuestions = document.querySelectorAll('.conditional-internet');
+            internetQuestions.forEach(q => {
+                q.style.display = hasInternet ? 'block' : 'none';
+                if (!hasInternet) {
+                    // Clear inputs when hidden
+                    const inputs = q.querySelectorAll('input, textarea');
+                    inputs.forEach(input => {
+                        if (input.type === 'checkbox' || input.type === 'radio') {
+                            input.checked = false;
+                        } else {
+                            input.value = '';
+                        }
                     });
-                    const specifyContainers = q.querySelectorAll('.specify-input');
-                    specifyContainers.forEach(sc => sc.classList.remove('active'));
-                    // Clear text inputs
-                    const textInputs = q.querySelectorAll('input[type="text"]');
-                    textInputs.forEach(ti => ti.value = '');
-                });
-            }
+                }
+            });
+            updateProgress();
         }
 
-        // Toggle OER usage questions based on Q14
+        // Toggle OER usage questions
         function toggleOERUsage(hasUsed) {
             const yesQuestions = document.querySelectorAll('.conditional-oer-yes');
             const noQuestions = document.querySelectorAll('.conditional-oer-no');
             
-            yesQuestions.forEach(q => q.style.display = hasUsed ? 'block' : 'none');
-            noQuestions.forEach(q => q.style.display = hasUsed ? 'none' : 'block');
+            yesQuestions.forEach(q => {
+                q.style.display = hasUsed ? 'block' : 'none';
+                if (!hasUsed) {
+                    const inputs = q.querySelectorAll('input, textarea');
+                    inputs.forEach(input => {
+                        if (input.type === 'checkbox' || input.type === 'radio') {
+                            input.checked = false;
+                        } else {
+                            input.value = '';
+                        }
+                    });
+                }
+            });
             
-            if (!hasUsed) {
-                yesQuestions.forEach(q => {
-                    const inputs = q.querySelectorAll('input[type="radio"], input[type="checkbox"]');
-                    inputs.forEach(inp => {
-                        inp.checked = false;
+            noQuestions.forEach(q => {
+                q.style.display = hasUsed ? 'none' : 'block';
+                if (hasUsed) {
+                    const inputs = q.querySelectorAll('input, textarea');
+                    inputs.forEach(input => {
+                        if (input.type === 'checkbox' || input.type === 'radio') {
+                            input.checked = false;
+                        } else {
+                            input.value = '';
+                        }
                     });
-                    const specifyContainers = q.querySelectorAll('.specify-input');
-                    specifyContainers.forEach(sc => {
-                        sc.classList.remove('active');
-                        const input = sc.querySelector('input, textarea');
-                        if (input) input.value = '';
-                    });
-                });
-            } else {
-                noQuestions.forEach(q => {
-                    const textareas = q.querySelectorAll('textarea');
-                    textareas.forEach(ta => ta.value = '');
-                    const radios = q.querySelectorAll('input[type="radio"]');
-                    radios.forEach(r => r.checked = false);
-                });
-            }
+                }
+            });
+            updateProgress();
         }
 
         // Toggle training details
-        function toggleTraining(isYes) {
+        function toggleTraining(hasTraining) {
             const yesDetail = document.getElementById('training-yes-detail');
             const noDetail = document.getElementById('training-no-detail');
             
-            if (isYes) {
-                yesDetail.classList.remove('hidden');
-                noDetail.classList.add('hidden');
-                const noTextarea = noDetail.querySelector('textarea');
-                if (noTextarea) noTextarea.value = '';
+            if (yesDetail) yesDetail.classList.toggle('hidden', !hasTraining);
+            if (noDetail) noDetail.classList.toggle('hidden', hasTraining);
+            
+            // Clear the other field
+            if (hasTraining) {
+                const noInput = document.querySelector('textarea[name="training_why_not"]');
+                if (noInput) noInput.value = '';
             } else {
-                yesDetail.classList.add('hidden');
-                noDetail.classList.remove('hidden');
-                const yesInput = yesDetail.querySelector('input');
+                const yesInput = document.querySelector('input[name="training_location"]');
                 if (yesInput) yesInput.value = '';
             }
+            updateProgress();
         }
 
         // Update progress bar
         function updateProgress() {
             const form = document.getElementById('questionnaire-form');
-            const inputs = form.querySelectorAll('input[type="radio"]:checked, input[type="checkbox"]:checked, textarea:not(:empty), input[type="text"]:not(:placeholder-shown)');
-            const totalQuestions = 29;
-            const answered = new Set();
+            const inputs = form.querySelectorAll('input:not([type="hidden"]):not(.specify-field), textarea, select');
+            let filled = 0;
+            let total = 0;
             
+            // Group inputs by name to handle radio buttons and checkboxes
+            const nameGroups = {};
             inputs.forEach(input => {
-                const name = input.name || input.id;
-                if (name) answered.add(name);
-            });
-            
-            const progress = Math.min(Math.round((answered.size / totalQuestions) * 100), 100);
-            
-            document.getElementById('progress-bar').style.width = progress + '%';
-            document.getElementById('progress-text').textContent = progress + '% Complete';
-            
-            saveProgress();
-        }
-
-        // Scroll to section
-        function scrollToSection(id) {
-            const element = document.getElementById(id);
-            if (element) {
-                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        }
-
-        // Validation functions
-        function validateForm() {
-            let isValid = true;
-            const requiredGroups = ['gender', 'age', 'student_category', 'regional_centre', 'faculty_affiliation'];
-            
-            requiredGroups.forEach(group => {
-                const checked = document.querySelector(`input[name="${group}"]:checked`);
-                if (!checked) {
-                    showError(group);
-                    isValid = false;
+                if (input.name && !input.name.includes('specify') && !input.closest('.specify-input')) {
+                    if (!nameGroups[input.name]) {
+                        nameGroups[input.name] = [];
+                        total++;
+                    }
+                    nameGroups[input.name].push(input);
                 }
             });
             
-            const degreeProgramme = document.querySelector('input[name="degree_programme"]');
-            if (!degreeProgramme.value.trim()) {
-                showError('degree_programme');
-                isValid = false;
+            // Count filled groups
+            for (const name in nameGroups) {
+                const group = nameGroups[name];
+                const isFilled = group.some(input => {
+                    if (input.type === 'checkbox' || input.type === 'radio') {
+                        return input.checked;
+                    }
+                    return input.value.trim() !== '';
+                });
+                if (isFilled) filled++;
             }
+            
+            // Also count specify fields if their parent is active
+            const activeSpecify = document.querySelectorAll('.specify-input.active input, .specify-input.active textarea');
+            activeSpecify.forEach(input => {
+                if (input.value.trim() !== '') {
+                    filled++;
+                }
+                total++;
+            });
+            
+            const percentage = total > 0 ? Math.round((filled / total) * 100) : 0;
+            document.getElementById('progress-bar').style.width = percentage + '%';
+            document.getElementById('progress-text').textContent = percentage + '% Complete';
+            
+            // Save draft
+            saveDraft();
+        }
+
+        // Validate required fields
+        function validateForm() {
+            let isValid = true;
+            const requiredCards = document.querySelectorAll('[data-required="true"]');
+            
+            requiredCards.forEach(card => {
+                const inputs = card.querySelectorAll('input, textarea, select');
+                let isFilled = false;
+                
+                inputs.forEach(input => {
+                    if (input.type === 'radio' || input.type === 'checkbox') {
+                        if (input.checked) isFilled = true;
+                    } else if (input.value.trim() !== '') {
+                        isFilled = true;
+                    }
+                });
+                
+                const errorMsg = card.querySelector('.error-message');
+                if (!isFilled) {
+                    isValid = false;
+                    if (errorMsg) errorMsg.classList.add('show');
+                    card.classList.add('error-field');
+                } else {
+                    if (errorMsg) errorMsg.classList.remove('show');
+                    card.classList.remove('error-field');
+                }
+            });
             
             return isValid;
         }
 
-        function showError(fieldName) {
-            const errorElement = document.getElementById(`${fieldName}-error`);
-            if (errorElement) {
-                errorElement.classList.add('show');
-            }
-        }
-
+        // Clear error on input
         function clearError(input) {
-            const fieldName = input.name;
-            const errorElement = document.getElementById(`${fieldName}-error`);
-            if (errorElement) {
-                errorElement.classList.remove('show');
+            const card = input.closest('.question-card');
+            if (card) {
+                card.classList.remove('error-field');
+                const errorMsg = card.querySelector('.error-message');
+                if (errorMsg) errorMsg.classList.remove('show');
             }
         }
 
-        // Collect form data
-        function collectFormData() {
+        // Scroll to section
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        // Save draft to localStorage
+        function saveDraft() {
             const form = document.getElementById('questionnaire-form');
             const formData = new FormData(form);
             const data = {};
             
-            formData.forEach((value, key) => {
+            for (let [key, value] of formData.entries()) {
                 if (data[key]) {
                     if (!Array.isArray(data[key])) {
                         data[key] = [data[key]];
@@ -2197,139 +2210,149 @@
                 } else {
                     data[key] = value;
                 }
-            });
+            }
             
-            data.timestamp = new Date().toISOString();
-            return data;
-        }
-
-        // Export response as JSON
-        function exportResponse() {
-            const data = collectFormData();
-            const refId = document.getElementById('ref-id').textContent;
-            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `OER_Response_${refId}.json`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        }
-
-        // Save progress to localStorage
-        function saveProgress() {
-            const data = collectFormData();
             localStorage.setItem('oer_questionnaire_draft', JSON.stringify(data));
         }
 
-        // Load progress from localStorage
+        // Load draft from localStorage
         function loadDraft() {
-            const saved = localStorage.getItem('oer_questionnaire_draft');
-            if (saved) {
-                if (confirm('Load your previously saved progress?')) {
-                    const data = JSON.parse(saved);
-                    restoreFormData(data);
-                    updateProgress();
-                    alert('Progress loaded successfully!');
-                }
-            } else {
-                alert('No saved progress found.');
+            const draft = localStorage.getItem('oer_questionnaire_draft');
+            if (!draft) {
+                alert('No draft found to load.');
+                return;
             }
+            
+            if (!confirm('This will replace your current responses with the saved draft. Continue?')) {
+                return;
+            }
+            
+            const data = JSON.parse(draft);
+            const form = document.getElementById('questionnaire-form');
+            
+            // Set consent checkbox first
+            if (data['consent-check']) {
+                document.getElementById('consent-check').checked = true;
+                checkConsent();
+            }
+            
+            // Populate form fields
+            for (const key in data) {
+                if (key === 'consent-check') continue;
+                
+                const inputs = form.querySelectorAll(`[name="${key}"]`);
+                const value = data[key];
+                
+                if (Array.isArray(value)) {
+                    // Handle multiple checkboxes
+                    inputs.forEach(input => {
+                        if (value.includes(input.value)) {
+                            input.checked = true;
+                            // Trigger change for conditional fields
+                            if (input.type === 'checkbox' && input.getAttribute('onchange')?.includes('toggleSpecifyCheckbox')) {
+                                toggleSpecifyCheckbox(input, input.closest('.question-card').querySelector('.specify-input')?.id);
+                            }
+                        }
+                    });
+                } else {
+                    // Handle single values
+                    inputs.forEach(input => {
+                        if (input.type === 'radio') {
+                            if (input.value === value) {
+                                input.checked = true;
+                                // Trigger conditional updates
+                                if (input.getAttribute('onchange')) {
+                                    input.onchange();
+                                }
+                            }
+                        } else if (input.type === 'checkbox') {
+                            input.checked = input.value === value;
+                        } else {
+                            input.value = value;
+                        }
+                    });
+                }
+            }
+            
+            // Update all conditional displays
+            toggleConditionalQuestions();
+            const internetAccess = document.querySelector('input[name="internet_access"]:checked');
+            if (internetAccess) toggleInternetQuestions(internetAccess.value === 'Yes');
+            
+            const usedOER = document.querySelector('input[name="used_oer"]:checked');
+            if (usedOER) toggleOERUsage(usedOER.value === 'Yes');
+            
+            updateProgress();
+            alert('Draft loaded successfully!');
         }
 
-        // Export draft manually
+        // Export draft as JSON file
         function exportDraft() {
-            const data = collectFormData();
+            const draft = localStorage.getItem('oer_questionnaire_draft');
+            if (!draft) {
+                alert('No draft to export. Please fill in some responses first.');
+                return;
+            }
+            
+            const data = JSON.parse(draft);
             const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `OER_Draft_${new Date().toISOString().split('T')[0]}.json`;
+            a.download = 'oer_questionnaire_draft_' + new Date().toISOString().split('T')[0] + '.json';
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
         }
 
-        // Restore form data
-        function restoreFormData(data) {
-            Object.keys(data).forEach(key => {
-                if (key === 'timestamp') return;
-                
-                const value = data[key];
-                const inputs = document.querySelectorAll(`[name="${key}"]`);
-                
-                if (Array.isArray(value)) {
-                    inputs.forEach(input => {
-                        if (value.includes(input.value)) {
-                            input.checked = true;
-                            if (input.onchange) input.onchange();
-                        }
-                    });
-                } else {
-                    inputs.forEach(input => {
-                        if (input.type === 'radio' && input.value === value) {
-                            input.checked = true;
-                            if (input.onchange) input.onchange();
-                        } else if (input.type === 'text' || input.type === 'textarea') {
-                            input.value = value;
-                        } else if (input.type === 'checkbox' && input.value === value) {
-                            input.checked = true;
-                            if (input.onchange) input.onchange();
-                        }
-                    });
-                }
-            });
+        // Export final response
+        function exportResponse() {
+            const refId = document.getElementById('ref-id').textContent;
+            const response = localStorage.getItem('oer_final_response_' + refId);
+            if (!response) {
+                alert('No response data found.');
+                return;
+            }
             
-            toggleConditionalQuestions();
-            const internetAccess = document.querySelector('input[name="internet_access"]:checked');
-            if (internetAccess) toggleInternetQuestions(internetAccess.value === 'Yes');
-            const usedOER = document.querySelector('input[name="used_oer"]:checked');
-            if (usedOER) toggleOERUsage(usedOER.value === 'Yes');
+            const data = JSON.parse(response);
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'oer_response_' + refId + '.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
         }
 
-        // Auto-save functionality
-        let autoSaveTimer;
-        document.addEventListener('input', () => {
-            clearTimeout(autoSaveTimer);
-            autoSaveTimer = setTimeout(() => {
-                saveProgress();
-            }, 3000);
-        });
-
-        // Check for saved progress on load
-        window.addEventListener('load', () => {
-            if (checkSubmissionStatus()) return;
+        // Collect all form data
+        function collectFormData() {
+            const form = document.getElementById('questionnaire-form');
+            const formData = new FormData(form);
+            const data = {};
             
-            const saved = localStorage.getItem('oer_questionnaire_draft');
-            if (saved) {
-                const data = JSON.parse(saved);
-                const savedDate = new Date(data.timestamp);
-                const now = new Date();
-                const hoursSinceSave = (now - savedDate) / (1000 * 60 * 60);
-                
-                if (hoursSinceSave < 24) {
-                    setTimeout(() => {
-                        if (confirm(`You have unsaved progress from ${savedDate.toLocaleString()}. Would you like to restore it?`)) {
-                            document.getElementById('consent-check').checked = true;
-                            checkConsent();
-                            restoreFormData(data);
-                            updateProgress();
-                        }
-                    }, 1000);
+            for (let [key, value] of formData.entries()) {
+                if (data[key]) {
+                    if (!Array.isArray(data[key])) {
+                        data[key] = [data[key]];
+                    }
+                    data[key].push(value);
+                } else {
+                    data[key] = value;
                 }
             }
-        });
+            
+            // Add metadata
+            data.submission_id = document.getElementById('submission-id').value;
+            data.submission_timestamp = document.getElementById('submission-timestamp').value;
+            
+            return data;
+        }
 
-        // Keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            if (e.ctrlKey && e.key === 's') {
-                e.preventDefault();
-                exportDraft();
-            }
-        });
+        // Auto-save draft every 30 seconds
+        setInterval(saveDraft, 30000);
     </script>
 </body>
 </html>
