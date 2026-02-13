@@ -290,6 +290,22 @@
   <input type="hidden" name="redirectTo"
          value="https://msagatinn-gif.github.io/Student-Questionnaire/thankyou.html">
   <!-- your existing questionnaire fields stay here -->
+</form>
+
+<form id="questionnaire-form"
+      action="https://api.staticforms.xyz/submit"
+      method="POST">
+
+  <input type="hidden" name="accessKey" value=" sf_lchhdgdln4ej51fbcmie5h2c ">
+  <input type="hidden" name="subject" value="Student Questionnaire Response">
+  <input type="hidden" name="redirectTo"
+         value="https://msagatinn-gif.github.io/Student-Questionnaire/thankyou.html">
+
+  <label>Programme of Study</label>
+  <input type="text" name="Programme of Study" required>
+
+  <button type="submit">Submit</button>
+
 </form>            
             <!-- SECTION A: DEMOGRAPHIC INFORMATION -->
             <div class="glass-panel rounded-2xl shadow-xl p-6 mb-6 section-hidden" id="section-a">
@@ -2286,5 +2302,6 @@
     </script>
 </body>
 </html>
+
 
 
