@@ -179,6 +179,11 @@
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
+        /* Already submitted message */
+        .already-submitted {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border: 2px solid #f59e0b;
+        }
     </style>
 </head>
 <body class="pb-20">
@@ -207,6 +212,21 @@
 
     <div class="max-w-5xl mx-auto px-4 py-6">
         
+        <!-- Already Submitted Warning -->
+        <div id="already-submitted-warning" class="hidden glass-panel rounded-2xl shadow-xl p-6 mb-6 already-submitted text-center">
+            <i class="fas fa-exclamation-triangle text-4xl text-amber-600 mb-3"></i>
+            <h2 class="text-xl font-bold text-amber-800 mb-2">Questionnaire Already Submitted</h2>
+            <p class="text-amber-700 mb-4">You have already completed this questionnaire. Each participant is allowed to submit only once.</p>
+            <div class="bg-white rounded-lg p-4 mb-4 max-w-md mx-auto">
+                <p class="text-sm text-gray-600 mb-1">Your Reference ID:</p>
+                <p id="submitted-ref-id" class="font-mono text-lg font-bold text-indigo-600"></p>
+                <p class="text-xs text-gray-500 mt-2">Submitted on: <span id="submitted-date"></span></p>
+            </div>
+            <button onclick="resetSubmission()" class="px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-all text-sm">
+                <i class="fas fa-redo mr-2"></i>Submit New Response (Admin Only)
+            </button>
+        </div>
+
         <!-- Header -->
         <div class="glass-panel rounded-2xl shadow-2xl p-6 mb-6 text-center" id="intro">
             <div class="inline-block p-3 rounded-full bg-indigo-100 mb-4">
@@ -264,6 +284,7 @@
                         <li>All responses remain <strong>strictly confidential</strong></li>
                         <li>Data used solely for academic purposes</li>
                         <li>Your identity will not be revealed in any reports</li>
+                        <li><strong>One submission per participant</strong></li>
                     </ul>
                 </div>
                 <p class="font-semibold text-gray-800 text-sm">
@@ -283,21 +304,22 @@
         </div>
 
         <form id="questionnaire-form"
-      action="https://api.staticforms.xyz/submit"
-      method="POST">
+              action="https://api.staticforms.xyz/submit"
+              method="POST"
+              onsubmit="return handleStaticFormsSubmit(event)">
 
-  <input type="hidden" name="accessKey" value=" sf_lchhdgdln4ej51fbcmie5h2c ">
-  <input type="hidden" name="subject" value="Student Questionnaire Response">
-  <input type="hidden" name="redirectTo"
-         value="https://msagatinn-gif.github.io/Student-Questionnaire/thankyou.html">
-
-  <label>Programme of Study</label>
-  <input type="text" name="Programme of Study" required>
-
-  <button type="submit">Submit</button>
-
-</form>
+            <!-- StaticForms Configuration -->
+            <input type="hidden" name="accessKey" value="sf_lchhdgdln4ej51fbcmie5h2c">
+            <input type="hidden" name="subject" value="Student Questionnaire Response - OER Study">
+            <input type="hidden" name="redirectTo" value="https://msagatinn-gif.github.io/Student-Questionnaire/thankyou.html">
             
+            <!-- Honeypot field for spam protection -->
+            <input type="text" name="honeypot" style="display: none;">
+            
+            <!-- Unique submission ID -->
+            <input type="hidden" name="submission_id" id="submission-id">
+            <input type="hidden" name="submission_timestamp" id="submission-timestamp">
+
             <!-- SECTION A: DEMOGRAPHIC INFORMATION -->
             <div class="glass-panel rounded-2xl shadow-xl p-6 mb-6 section-hidden" id="section-a">
                 <div class="flex items-center mb-4 pb-3 border-b-2 border-indigo-100">
@@ -702,7 +724,7 @@
                     </p>
                 </div>
 
-                <!-- Q11: Internet Location (Conditional) - ENHANCED WITH BETTER SPECIFY FIELDS -->
+                <!-- Q11: Internet Location (Conditional) - ENHANCED WITH EDITABLE SPECIFY FIELDS -->
                 <div class="question-card bg-white rounded-lg p-4 mb-4 shadow-sm border border-gray-100 conditional-internet" style="display:none;">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center text-sm">
                         <span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">11</span>
@@ -731,15 +753,22 @@
                                     <td class="p-2 border border-gray-200 text-center"><input type="checkbox" name="loc_office_lan" class="w-4 h-4 rounded text-indigo-600" onchange="updateProgress()"></td>
                                     <td class="p-2 border border-gray-200 text-center"><input type="checkbox" name="loc_office_mobile" class="w-4 h-4 rounded text-indigo-600" onchange="updateProgress()"></td>
                                 </tr>
-                                <!-- ENHANCED: Other University Premises with better visibility -->
+                                <!-- ENHANCED: Other University Premises with editable input -->
                                 <tr class="hover:bg-gray-50 bg-orange-50">
-                                    <td class="p-2 border border-gray-200 font-semibold text-orange-800">
-                                        <i class="fas fa-university mr-1 text-orange-600"></i>
-                                        Other University Premises (Specify below)
+                                    <td class="p-2 border border-gray-200">
+                                        <div class="font-semibold text-orange-800 mb-1">
+                                            <i class="fas fa-university mr-1 text-orange-600"></i>
+                                            Other University Premises
+                                        </div>
+                                        <input type="text" 
+                                               name="other_uni_premises_name" 
+                                               class="w-full p-1.5 text-xs border-2 border-orange-300 rounded focus:border-orange-500 focus:outline-none bg-white" 
+                                               placeholder="Specify location here..." 
+                                               oninput="updateProgress()">
                                     </td>
-                                    <td class="p-2 border border-gray-200 text-center"><input type="checkbox" name="loc_other_uni_wifi" class="w-4 h-4 rounded text-indigo-600" onchange="toggleQ11Specify('other-uni-container', this); updateProgress()"></td>
-                                    <td class="p-2 border border-gray-200 text-center"><input type="checkbox" name="loc_other_uni_lan" class="w-4 h-4 rounded text-indigo-600" onchange="toggleQ11Specify('other-uni-container', this); updateProgress()"></td>
-                                    <td class="p-2 border border-gray-200 text-center"><input type="checkbox" name="loc_other_uni_mobile" class="w-4 h-4 rounded text-indigo-600" onchange="toggleQ11Specify('other-uni-container', this); updateProgress()"></td>
+                                    <td class="p-2 border border-gray-200 text-center"><input type="checkbox" name="loc_other_uni_wifi" class="w-4 h-4 rounded text-indigo-600" onchange="updateProgress()"></td>
+                                    <td class="p-2 border border-gray-200 text-center"><input type="checkbox" name="loc_other_uni_lan" class="w-4 h-4 rounded text-indigo-600" onchange="updateProgress()"></td>
+                                    <td class="p-2 border border-gray-200 text-center"><input type="checkbox" name="loc_other_uni_mobile" class="w-4 h-4 rounded text-indigo-600" onchange="updateProgress()"></td>
                                 </tr>
                                 <tr class="hover:bg-gray-50">
                                     <td class="p-2 border border-gray-200">Home</td>
@@ -753,40 +782,29 @@
                                     <td class="p-2 border border-gray-200 text-center"><input type="checkbox" name="loc_cafe_lan" class="w-4 h-4 rounded text-indigo-600" onchange="updateProgress()"></td>
                                     <td class="p-2 border border-gray-200 text-center"><input type="checkbox" name="loc_cafe_mobile" class="w-4 h-4 rounded text-indigo-600" onchange="updateProgress()"></td>
                                 </tr>
-                                <!-- ENHANCED: Others with better visibility -->
+                                <!-- ENHANCED: Others with editable input -->
                                 <tr class="hover:bg-gray-50 bg-orange-50">
-                                    <td class="p-2 border border-gray-200 font-semibold text-orange-800">
-                                        <i class="fas fa-map-marked-alt mr-1 text-orange-600"></i>
-                                        Others (Specify below)
+                                    <td class="p-2 border border-gray-200">
+                                        <div class="font-semibold text-orange-800 mb-1">
+                                            <i class="fas fa-map-marked-alt mr-1 text-orange-600"></i>
+                                            Others (Specify below)
+                                        </div>
+                                        <input type="text" 
+                                               name="other_location_name" 
+                                               class="w-full p-1.5 text-xs border-2 border-orange-300 rounded focus:border-orange-500 focus:outline-none bg-white" 
+                                               placeholder="Specify other location..." 
+                                               oninput="updateProgress()">
                                     </td>
-                                    <td class="p-2 border border-gray-200 text-center"><input type="checkbox" name="loc_others_wifi" class="w-4 h-4 rounded text-indigo-600" onchange="toggleQ11Specify('other-loc-container', this); updateProgress()"></td>
-                                    <td class="p-2 border border-gray-200 text-center"><input type="checkbox" name="loc_others_lan" class="w-4 h-4 rounded text-indigo-600" onchange="toggleQ11Specify('other-loc-container', this); updateProgress()"></td>
-                                    <td class="p-2 border border-gray-200 text-center"><input type="checkbox" name="loc_others_mobile" class="w-4 h-4 rounded text-indigo-600" onchange="toggleQ11Specify('other-loc-container', this); updateProgress()"></td>
+                                    <td class="p-2 border border-gray-200 text-center"><input type="checkbox" name="loc_others_wifi" class="w-4 h-4 rounded text-indigo-600" onchange="updateProgress()"></td>
+                                    <td class="p-2 border border-gray-200 text-center"><input type="checkbox" name="loc_others_lan" class="w-4 h-4 rounded text-indigo-600" onchange="updateProgress()"></td>
+                                    <td class="p-2 border border-gray-200 text-center"><input type="checkbox" name="loc_others_mobile" class="w-4 h-4 rounded text-indigo-600" onchange="updateProgress()"></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                    <!-- ENHANCED Active Specify Fields for Question 11 -->
-                    <div id="other-uni-container" class="specify-input">
-                        <div class="q11-specify-container">
-                            <label class="q11-specify-label">
-                                <i class="fas fa-pen"></i>
-                                Please specify other university premises:
-                            </label>
-                            <input type="text" name="other_uni_specify" class="q11-specify-field" placeholder="e.g., Student Center, Science Lab, Auditorium..." oninput="updateProgress()">
-                            <p class="text-xs text-orange-700 mt-1 italic">Be specific about the location within the university</p>
-                        </div>
-                    </div>
-                    <div id="other-loc-container" class="specify-input">
-                        <div class="q11-specify-container">
-                            <label class="q11-specify-label">
-                                <i class="fas fa-pen"></i>
-                                Please specify other locations:
-                            </label>
-                            <input type="text" name="other_location_specify" class="q11-specify-field" placeholder="e.g., Public Library, Friend's House, Community Center..." oninput="updateProgress()">
-                            <p class="text-xs text-orange-700 mt-1 italic">List all other locations where you access internet</p>
-                        </div>
-                    </div>
+                    <p class="text-xs text-orange-700 mt-2 italic bg-orange-50 p-2 rounded">
+                        <i class="fas fa-info-circle mr-1"></i> For "Other University Premises" and "Others", please type your specific location in the text fields provided before selecting connection types.
+                    </p>
                 </div>
 
                 <!-- Q12: Devices - Enhanced Specify -->
@@ -1815,10 +1833,11 @@
                         <li><i class="fas fa-check mr-1"></i>Review your answers</li>
                         <li><i class="fas fa-check mr-1"></i>Ensure all required fields are completed</li>
                         <li><i class="fas fa-check mr-1"></i>Your responses will be kept confidential</li>
+                        <li><i class="fas fa-check mr-1"></i>You can only submit once per device</li>
                     </ul>
                 </div>
 
-                <button onclick="submitForm()" class="bg-indigo-600 text-white px-8 py-3 rounded-full font-bold text-base hover:bg-indigo-700 transition-all transform hover:scale-105 shadow-lg">
+                <button type="submit" class="bg-indigo-600 text-white px-8 py-3 rounded-full font-bold text-base hover:bg-indigo-700 transition-all transform hover:scale-105 shadow-lg">
                     <i class="fas fa-paper-plane mr-2"></i>Submit Questionnaire
                 </button>
                 
@@ -1857,6 +1876,102 @@
     </div>
 
     <script>
+        // Check if already submitted on page load
+        window.addEventListener('load', function() {
+            checkSubmissionStatus();
+        });
+
+        // Check submission status
+        function checkSubmissionStatus() {
+            const submitted = localStorage.getItem('oer_questionnaire_submitted');
+            if (submitted) {
+                const data = JSON.parse(submitted);
+                document.getElementById('submitted-ref-id').textContent = data.refId || 'N/A';
+                document.getElementById('submitted-date').textContent = new Date(data.timestamp).toLocaleString();
+                document.getElementById('already-submitted-warning').classList.remove('hidden');
+                document.getElementById('questionnaire-form').style.display = 'none';
+                document.querySelector('.sticky-nav').style.display = 'none';
+                document.getElementById('intro').style.display = 'none';
+                return true;
+            }
+            return false;
+        }
+
+        // Reset submission (for admin/testing purposes)
+        function resetSubmission() {
+            if (confirm('Are you sure you want to clear the submission record? This will allow a new submission from this device.')) {
+                localStorage.removeItem('oer_questionnaire_submitted');
+                location.reload();
+            }
+        }
+
+        // Handle StaticForms submission
+        function handleStaticFormsSubmit(event) {
+            // Prevent default to handle validation first
+            event.preventDefault();
+            
+            // Check if already submitted
+            if (localStorage.getItem('oer_questionnaire_submitted')) {
+                alert('You have already submitted this questionnaire. Each participant is allowed to submit only once.');
+                return false;
+            }
+            
+            // Validate form
+            if (!validateForm()) {
+                alert('Please complete all required fields (marked with *) before submitting.');
+                // Scroll to first error
+                const firstError = document.querySelector('.error-message.show');
+                if (firstError) {
+                    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+                return false;
+            }
+            
+            // Show loading state
+            const submitBtn = document.querySelector('#submit-section button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner spinner mr-2"></i>Submitting...';
+            submitBtn.classList.add('loading');
+            submitBtn.disabled = true;
+            
+            // Generate submission data
+            const refId = 'OER-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5).toUpperCase();
+            document.getElementById('submission-id').value = refId;
+            document.getElementById('submission-timestamp').value = new Date().toISOString();
+            
+            // Store submission record
+            const submissionRecord = {
+                refId: refId,
+                timestamp: new Date().toISOString(),
+                userAgent: navigator.userAgent
+            };
+            localStorage.setItem('oer_questionnaire_submitted', JSON.stringify(submissionRecord));
+            
+            // Store final response for download
+            const formData = collectFormData();
+            localStorage.setItem('oer_final_response_' + refId, JSON.stringify(formData));
+            
+            // Show success message after short delay
+            setTimeout(() => {
+                document.getElementById('ref-id').textContent = refId;
+                document.getElementById('questionnaire-form').style.display = 'none';
+                document.getElementById('submit-section').style.display = 'none';
+                document.querySelector('.sticky-nav').style.display = 'none';
+                document.getElementById('thank-you').classList.remove('hidden');
+                
+                // Clear draft
+                localStorage.removeItem('oer_questionnaire_draft');
+                
+                // Scroll to top
+                window.scrollTo(0, 0);
+                
+                // Actually submit the form to StaticForms
+                document.getElementById('questionnaire-form').submit();
+            }, 1500);
+            
+            return false;
+        }
+
         // Consent check
         function checkConsent() {
             const consent = document.getElementById('consent-check').checked;
@@ -1885,14 +2000,12 @@
             if (container) {
                 if (show) {
                     container.classList.add('active');
-                    // Focus the input after a short delay for animation
                     setTimeout(() => {
                         const input = container.querySelector('input, textarea');
                         if (input) input.focus();
                     }, 300);
                 } else {
                     container.classList.remove('active');
-                    // Clear the input when hiding
                     const input = container.querySelector('input, textarea');
                     if (input) input.value = '';
                 }
@@ -1917,28 +2030,6 @@
             }
         }
 
-        // SPECIAL FUNCTION FOR QUESTION 11: Toggle specify fields for checkbox matrix
-        function toggleQ11Specify(containerId, checkbox) {
-            const container = document.getElementById(containerId);
-            // Check if any checkbox in this row is checked
-            const rowCheckboxes = checkbox.closest('tr').querySelectorAll('input[type="checkbox"]');
-            const anyChecked = Array.from(rowCheckboxes).some(cb => cb.checked);
-            
-            if (container) {
-                if (anyChecked) {
-                    container.classList.add('active');
-                    setTimeout(() => {
-                        const input = container.querySelector('input');
-                        if (input) input.focus();
-                    }, 300);
-                } else {
-                    container.classList.remove('active');
-                    const input = container.querySelector('input');
-                    if (input) input.value = '';
-                }
-            }
-        }
-
         // Toggle conditional questions based on Q7
         function toggleConditionalQuestions() {
             const q7 = document.querySelector('input[name="oer_awareness"]:checked');
@@ -1948,11 +2039,9 @@
                 q8.style.display = 'block';
             } else {
                 q8.style.display = 'none';
-                // Reset checkboxes in Q8 when hidden
                 const checkboxes = q8.querySelectorAll('input[type="checkbox"]');
                 checkboxes.forEach(cb => {
                     cb.checked = false;
-                    // Trigger change to hide any specify fields
                     if (cb.onchange) cb.onchange();
                 });
             }
@@ -1965,15 +2054,16 @@
                 q.style.display = show ? 'block' : 'none';
             });
             if (!show) {
-                // Reset checkboxes and hide specify fields
                 questions.forEach(q => {
                     const checkboxes = q.querySelectorAll('input[type="checkbox"]');
                     checkboxes.forEach(cb => {
                         cb.checked = false;
                     });
-                    // Hide all specify containers
                     const specifyContainers = q.querySelectorAll('.specify-input');
                     specifyContainers.forEach(sc => sc.classList.remove('active'));
+                    // Clear text inputs
+                    const textInputs = q.querySelectorAll('input[type="text"]');
+                    textInputs.forEach(ti => ti.value = '');
                 });
             }
         }
@@ -1987,7 +2077,6 @@
             noQuestions.forEach(q => q.style.display = hasUsed ? 'none' : 'block');
             
             if (!hasUsed) {
-                // Reset yes questions
                 yesQuestions.forEach(q => {
                     const inputs = q.querySelectorAll('input[type="radio"], input[type="checkbox"]');
                     inputs.forEach(inp => {
@@ -2001,7 +2090,6 @@
                     });
                 });
             } else {
-                // Reset no questions
                 noQuestions.forEach(q => {
                     const textareas = q.querySelectorAll('textarea');
                     textareas.forEach(ta => ta.value = '');
@@ -2019,13 +2107,11 @@
             if (isYes) {
                 yesDetail.classList.remove('hidden');
                 noDetail.classList.add('hidden');
-                // Clear no detail
                 const noTextarea = noDetail.querySelector('textarea');
                 if (noTextarea) noTextarea.value = '';
             } else {
                 yesDetail.classList.add('hidden');
                 noDetail.classList.remove('hidden');
-                // Clear yes detail
                 const yesInput = yesDetail.querySelector('input');
                 if (yesInput) yesInput.value = '';
             }
@@ -2048,7 +2134,6 @@
             document.getElementById('progress-bar').style.width = progress + '%';
             document.getElementById('progress-text').textContent = progress + '% Complete';
             
-            // Save progress to localStorage
             saveProgress();
         }
 
@@ -2073,7 +2158,6 @@
                 }
             });
             
-            // Check degree programme
             const degreeProgramme = document.querySelector('input[name="degree_programme"]');
             if (!degreeProgramme.value.trim()) {
                 showError('degree_programme');
@@ -2096,47 +2180,6 @@
             if (errorElement) {
                 errorElement.classList.remove('show');
             }
-        }
-
-        // Submit form
-        function submitForm() {
-            if (!validateForm()) {
-                alert('Please complete all required fields (marked with *) before submitting.');
-                // Scroll to first error
-                const firstError = document.querySelector('.error-message.show');
-                if (firstError) {
-                    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }
-                return;
-            }
-
-            // Show loading state
-            const submitBtn = document.querySelector('#submit-section button');
-            submitBtn.innerHTML = '<i class="fas fa-spinner spinner mr-2"></i>Submitting...';
-            submitBtn.classList.add('loading');
-
-            // Simulate submission delay
-            setTimeout(() => {
-                // Generate reference ID
-                const refId = 'OER-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5).toUpperCase();
-                document.getElementById('ref-id').textContent = refId;
-                
-                // Store final response
-                const formData = collectFormData();
-                localStorage.setItem('oer_final_response_' + refId, JSON.stringify(formData));
-                
-                // Hide form, show thank you
-                document.getElementById('questionnaire-form').style.display = 'none';
-                document.getElementById('submit-section').style.display = 'none';
-                document.querySelector('.sticky-nav').style.display = 'none';
-                document.getElementById('thank-you').classList.remove('hidden');
-                
-                // Clear draft
-                localStorage.removeItem('oer_questionnaire_draft');
-                
-                // Scroll to top
-                window.scrollTo(0, 0);
-            }, 1500);
         }
 
         // Collect form data
@@ -2219,16 +2262,13 @@
                 const inputs = document.querySelectorAll(`[name="${key}"]`);
                 
                 if (Array.isArray(value)) {
-                    // Checkbox group
                     inputs.forEach(input => {
                         if (value.includes(input.value)) {
                             input.checked = true;
-                            // Trigger change for specify fields
                             if (input.onchange) input.onchange();
                         }
                     });
                 } else {
-                    // Radio or text
                     inputs.forEach(input => {
                         if (input.type === 'radio' && input.value === value) {
                             input.checked = true;
@@ -2243,7 +2283,6 @@
                 }
             });
             
-            // Re-check conditional displays
             toggleConditionalQuestions();
             const internetAccess = document.querySelector('input[name="internet_access"]:checked');
             if (internetAccess) toggleInternetQuestions(internetAccess.value === 'Yes');
@@ -2257,12 +2296,13 @@
             clearTimeout(autoSaveTimer);
             autoSaveTimer = setTimeout(() => {
                 saveProgress();
-                console.log('Auto-saved at', new Date().toLocaleTimeString());
             }, 3000);
         });
 
         // Check for saved progress on load
         window.addEventListener('load', () => {
+            if (checkSubmissionStatus()) return;
+            
             const saved = localStorage.getItem('oer_questionnaire_draft');
             if (saved) {
                 const data = JSON.parse(saved);
@@ -2293,4 +2333,3 @@
     </script>
 </body>
 </html>
-
